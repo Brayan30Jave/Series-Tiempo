@@ -1,0 +1,88 @@
+--- 
+title: "Asignatura Series de Tiempo"
+author: "Brayan Hernandez Cardona"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+description: |
+  Este libro permite mostrar los avances realizados en la asignatura de series de tiempo.
+link-citations: yes
+github-repo: Brayan30Jave/Series-Tiempo
+---
+
+# Acerca de este libro
+
+Este libro recopila los resultados más relevantes obtenidos durante el curso de series de tiempo de la Maestría en Ciencia de Datos, incluyendo análisis, modelos y predicciones.
+
+Los datos para la realización de este book son suministrados por una empresa del sector retail en el ambito de electrónica de la cual se tiene el permiso para su uso durante esta asignatura.
+
+## Introducción 
+
+En el actual panorama empresarial, caracterizado por una dinámica competitiva intensa y fluctuaciones del mercado, la capacidad de previsión se erige como un factor determinante para la sostenibilidad y el crecimiento de las organizaciones. La predicción precisa de las ventas reviste una importancia capital para la optimización de recursos, la planificación estratégica y la toma de decisiones  en áreas clave como la gestión de inventarios, la producción y el marketing. En este contexto, el análisis de series temporales se posiciona como una metodología cuantitativa robusta con un amplio potencial para  identificar patrones, tendencias y  comportamientos recurrentes en los datos de ventas,  permitiendo la generación de pronósticos  confiables y  la anticipación a las fluctuaciones de la demanda.
+
+Esta obra se propone  profundizar  en el  marco teórico-práctico del análisis de series temporales aplicado a la predicción de ventas.  A lo largo de sus capítulos, se  abordarán  con rigor  los fundamentos  matemáticos y estadísticos de esta disciplina,  se examinarán  las  principales  técnicas de modelado  y  se  presentarán  casos de estudio.
+
+
+```{r, eval=FALSE}
+bookdown::render_book()
+```
+
+
+```{r eval=FALSE}
+bookdown::serve_book()
+```
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+<!--chapter:end:index.Rmd-->
+
+# Pronóstico de Ventas en empresa Retail
+
+## Optimizando el Futuro del Retail
+
+Este proyecto se centra en el análisis y pronóstico de ventas de una empresa en el sector retail, una pequeña cadena de tiendas de electrónica con 3 sucursales ubicadas en diferentes ciudades de Colombia.  El conjunto de datos utilizado contiene información detallada de las transacciones realizadas en cada tienda durante los años 2017 y 2020.
+
+## Estructura del dataset
+
+En nuestro dataset se encuentra información de las transacciones de ventas de 4 años comprendidos entre el inicio de 2017 y finales de 2020. En el cual disponemos de la siguiente información:
+
+* **Fecha y hora de la transacción:** Permite analizar patrones de compra a lo largo del tiempo.
+* **Nombre de la sucursal:** Permite comparar el rendimiento de las diferentes sucursales.
+* **Categoría del producto:** (repuestos, accesorios, electrodomesticos, servicios) Facilita el análisis de la demanda por categorías.
+* **ID del producto:** Permite comparar el rendimiento de los diferentes productos.
+* **Precio del producto:** Útil para analizar la relación entre precio y volumen de ventas.
+* **Cantidad vendida:** Permite calcular las ventas totales y el rendimiento de cada producto.
+* **Método de pago:** (e.g., efectivo, tarjeta de crédito, tarjeta débito) Permite identificar tendencias en los métodos de pago.
+* **Descuentos y promociones aplicadas:** Permite evaluar la efectividad de las estrategias promocionales.
+
+### ¿Por qué es crucial pronosticar las ventas?
+
+En un entorno minorista altamente competitivo, la capacidad de anticipar la demanda futura es fundamental para el éxito de las pequeñas empresas. Un pronóstico con buena asertividad permite:
+
+* **Optimizar la gestión de inventario:** Evitar el exceso de stock y las roturas de stock, minimizando costos de almacenamiento y maximizando la disponibilidad de productos.
+* **Planificar las necesidades de personal:** Asignar el número adecuado de empleados en cada tienda y en cada turno, optimizando la atención al cliente y la eficiencia operativa.
+* **Maximizar la rentabilidad:** Ajustar las estrategias de precios y promociones en función de la demanda prevista, aumentando las ventas y la rentabilidad.
+* **Tomar decisiones estratégicas:** Identificar tendencias de consumo, evaluar la efectividad de las estrategias de marketing, y planificar la expansión a nuevas ubicaciones.
+
+
+### ¿Qué podemos aportar desde la ciencia de datos?
+
+Imaginemos que el análisis de datos nos permite pronosticar las ventas de productos con una asertividad del 80% en la sucursal de Tulúa durante los meses de julio y agosto.  Con esta información la empresa puede:
+
+* Definir con cierto grado de seguridad el stock de productos en la sucursal de Tulúa durante esos meses.
+* La empresa podrá definir mejores acuerdo de compras de productos con sus proveedores si ya sabe de antemano lo que ocupará para esos meses.
+* Se pueden reducir riesgo de desabastecimientos y gastos innecesarios en la recuperación del stock.
+
+En resumen, el pronóstico de ventas  proporciona a las empresas una herramienta poderosa para  optimizar sus operaciones,  mejorar su rentabilidad  y  fortalecer su posición en el mercado.
+
+Este análisis se desarrollará utilizando el lenguaje de programación R y se documentará en un libro 'bookdown' alojado en GitHub. El libro incluirá el código utilizado,  las visualizaciones generadas  y  las conclusiones del análisis.
+
+<!--chapter:end:01-Justificacion.Rmd-->
+
