@@ -1,0 +1,238 @@
+# Preprocesamientoy visualización
+
+Este informe profundiza en el análisis de las series de tiempo de las ventas de un producto. La comprensión de los patrones históricos de ventas es fundamental para la toma de decisiones estratégicas en las compañías. Un análisis preciso permite optimizar la gestión de inventario, prever la demanda futura, ajustar las estrategias de marketing y, en última instancia, maximizar la rentabilidad.
+
+```{r include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+
+```
+
+
+```{r}
+# Instalar paquetes necesarios
+if(!require("forecast")) install.packages("forecast")
+if(!require("tseries")) install.packages("tseries")
+if(!require("ggplot2")) install.packages("ggplot2")
+if(!require("zoo")) install.packages("zoo")
+if(!require("changepoint")) install.packages("changepoint")
+if(!require("tsoutliers")) install.packages("tsoutliers")
+
+
+# Cargar paquetes
+library(forecast)
+library(tseries)
+library(ggplot2)
+library(zoo)
+library(changepoint)
+library(tsoutliers)
+
+```
+
+## Metodología
+
+Se empleó el lenguaje de programación R, aprovechando sus potentes librerías para el análisis de series de tiempo. Las librerías utilizadas incluyen:
+
+* **forecast:** Para la creación y evaluación de modelos de predicción, incluyendo ARIMA.
+
+* **tseries:** Para realizar pruebas de estacionariedad, como la prueba de Dickey-Fuller Aumentada (ADF).
+
+* **ggplot2:** Para la creación de gráficos de alta calidad y visualmente informativos.
+
+* **zoo:** Para trabajar con series de tiempo irregulares.
+
+* **changepoint:** Para la detección de puntos de cambio en la serie.
+
+* **tsoutliers:** Para la identificación y tratamiento de valores atípicos en series de tiempo.
+
+
+## Análisis Detallado de los Resultados:
+
+### Visualización Inicial y Exploración de Datos:
+
+* La gráfica de la serie de tiempo original revela la evolución de las ventas diarias del producto a lo largo del tiempo (2017-2021). Esta visualización inicial nos permite apreciar la variabilidad de las ventas y la posible presencia de patrones, tendencias o estacionalidad. Se observan periodos con ventas elevadas y periodos con ventas bajas, lo cual justifica un análisis más profundo para comprender las causas de estas fluctuaciones.
+
+```{r}
+
+# Leer los datos
+datos <- readxl::read_excel("MUESTRA SERIE TIEMPO.xlsx")
+
+
+# Crear serie de tiempo
+
+datos["transaction_date"] <- as.Date(datos$transaction_date, origin = "1900-01-01")
+
+#Filtramos las fechas anteriores o iguales a 2020.
+datos <- datos[datos$transaction_date <= as.Date("2020-12-31"), ]
+
+
+ventas_diarias <- aggregate(quantity ~ transaction_date, data = datos, FUN = sum)
+
+
+indice.ts <- ts(ventas_diarias[["quantity"]], frequency = 12, start = c(2017, 1), end = c(2020, 12))
+
+
+# Graficar la serie original
+plot(indice.ts, main = "Valores Mensuales del índice", xlab = "Años", ylab = "Valor")
+```
+
+## Prueba de Estacionariedad (Dickey-Fuller Aumentada - ADF):
+
+* La estacionariedad es un requisito fundamental para muchos modelos de series de tiempo. Una serie estacionaria tiene una media y varianza constantes a lo largo del tiempo. La prueba ADF se utiliza para evaluar la estacionariedad. En este caso, la prueba inicial en la serie original rechazó la hipótesis nula de estacionariedad (p-valor > 0.05).
+
+* Dado que no podemos rechazar la hipotesis de que nuestros datos no son estacionarios, podemos emplear la diferenciación, esta una técnica común para transformar una serie no estacionaria en estacionaria. En este análisis, se aplicó una diferenciación de primer orden, lo que significa que se calculó la diferencia entre las ventas de un mes y las del mes anterior. La prueba ADF aplicada a la serie diferenciada indicó estacionariedad (p-valor < 0.05), cumpliendo así con el requisito para la modelización ARIMA.
+
+```{r}
+
+# Prueba de estacionariedad (Dickey-Fuller)
+adf.test(indice.ts)
+
+
+# Diferenciación
+
+ndiffs(indice.ts) # Para determinar el orden de diferenciación necesario
+
+dif.indice.ts <- diff(indice.ts, differences = 1) # Diferenciar la serie
+
+
+#Volver a realizar la prueba
+adf.test(dif.indice.ts)
+```
+
+## Visualización de la Serie Diferenciada:
+
+La gráfica de la serie diferenciada ilustra las variaciones mensuales en las ventas. Muestra la magnitud y la dirección de los cambios en las ventas de un mes a otro. Esta visualización ayuda a identificar periodos de crecimiento, decrecimiento o volatilidad en las ventas.
+
+```{r}
+# Graficar la serie diferenciada
+plot(dif.indice.ts,  main = "DIF del valor diario del índice", xlab = "Años", ylab = "Valor")
+```
+
+## Funciones de Autocorrelación (ACF) y Autocorrelación Parcial (PACF):
+
+* La ACF mide la correlación entre la serie y sus propios rezagos. La PACF, por otro lado, mide la correlación entre la serie y un rezago específico, eliminando la influencia de los rezagos intermedios.
+
+* El análisis de la ACF y PACF de la serie diferenciada es crucial para determinar el orden del modelo ARIMA (p, d, q). Los rezagos significativos en la ACF y PACF sugieren la inclusión de términos autoregresivos (AR - p) y de media móvil (MA - q) en el modelo. En este caso, la ACF y PACF muestran correlaciones significativas en los primeros rezagos, lo que justifica la elección de un modelo ARIMA con componentes AR y MA.
+
+```{r}
+# Funciones ACF y PACF (Se aplica a la diferenciada ya que la original no se puede considerar estacional)
+acf(dif.indice.ts, main = "Series dif.Indice.ts")
+pacf(dif.indice.ts, main = "Series dif.Indice.ts")
+```
+
+## Descomposición de la Serie (Componente Estacional):
+
+* se utiliza la función decompose() para separar la serie en sus componentes: tendencia, estacionalidad y componente aleatoria. 
+
+Esto permitiría un análisis más preciso de cada componente y una mejor comprensión de los factores que influyen en las ventas. Se podría, por ejemplo, modelar la componente estacional para realizar predicciones más ajustadas a la realidad.
+
+```{r}
+# Descomposición de la serie
+decomp <- decompose(indice.ts) 
+plot(decomp)
+
+```
+
+## Modelo ARIMA (2, 0, 1):
+
+Se empleó la función `auto.arima()` para determinar y ajustar automáticamente el mejor modelo ARIMA a la serie diferenciada. El modelo seleccionado fue un ARIMA(2, 0, 1) con media cero.  Desglosemos la notación y los resultados del modelo:
+
+* **(2, 0, 1):**  Indica 2 términos autoregresivos (AR), 0 diferencias (la diferenciación ya se realizó previamente) y 1 término de media móvil (MA).
+
+* **Coefficients:**
+    * `ar1`: -0.0897 (coeficiente del primer término AR).  Un valor negativo sugiere una relación inversa entre las ventas del día actual y las ventas del día anterior.
+    * `ar2`: -0.0965 (coeficiente del segundo término AR). Influencia de las ventas de hace dos días.
+    * `ma1`: -0.8751 (coeficiente del primer término MA).  Un valor negativo indica que los shocks aleatorios del pasado tienen un efecto inverso en las ventas actuales.
+    * `s.e.`:  Error estándar asociado a cada coeficiente.  Estos valores nos dan una idea de la precisión de las estimaciones de los coeficientes.
+
+
+En resumen, el modelo ARIMA(2, 0, 1) captura la dinámica de la serie diferenciada, pero es importante tener en cuenta las medidas de error y la no normalidad de los residuos para una evaluación completa del modelo y la consideración de posibles mejoras.
+
+```{r}
+# Modelo ARIMA (automático)
+arima_model <- auto.arima(dif.indice.ts) # Usado en la serie diferenciada
+summary(arima_model)
+```
+
+## Detección de Puntos de Cambio:
+
+* La función cpt.mean() se utiliza para identificar puntos de cambio en la media de la serie. En este caso, se detectó un punto de cambio en el periodo 15 de la serie diferenciada. Esto indica un cambio abrupto en el comportamiento de las ventas en ese momento. Es crucial investigar las posibles causas de este cambio, como cambios en el mercado, promociones especiales, o factores externos, para comprender su impacto en las ventas y ajustar las estrategias comerciales en consecuencia.
+
+```{r}
+# Detección de puntos de cambio
+cp <- cpt.mean(dif.indice.ts) # Usando la serie diferenciada
+cp
+plot(cp)
+```
+
+## Predicción:
+
+Utilizando el modelo ARIMA(2, 0, 1) ajustado, se generaron predicciones para 3 y 6 periodos futuros. La función forecast() en R proporciona no solo el valor predicho ("Point Forecast"), sino también intervalos de confianza que nos ayudan a entender la incertidumbre asociada a estas predicciones.
+
+### Predicción a 6 periodos:
+
+La predicción para 6 periodos muestra lo siguiente:
+
+* **Point Forecast:** El valor predicho para las ventas diferenciadas en cada uno de los 6 meses siguientes. Por ejemplo, para enero de 2021, se espera un cambio en las ventas de aproximadamente 2.85 unidades respecto al mes anterior. Es crucial recordar que estas son predicciones de la serie diferenciada, no de las ventas reales.
+
+* **Lo 80 y Hi 80:** Los límites inferior y superior del intervalo de confianza del 80%. Por ejemplo, para enero de 2021, hay un 80% de probabilidad de que el cambio en las ventas esté entre -5.32 y 11.01 unidades.
+
+* **Lo 95 y Hi 95:** Los límites inferior y superior del intervalo de confianza del 95%. Para enero de 2021, hay un 95% de probabilidad de que el cambio en las ventas esté entre -9.65 y 15.34 unidades. Observamos que, como es de esperar, el intervalo de confianza del 95% es más amplio que el del 80%, reflejando una mayor incertidumbre.
+
+### Predicción a 3 periodos:
+
+El print(prediccion) para 3 periodos ofrece la misma información, pero solo para los 3 meses siguientes. Es útil comparar las predicciones a 3 y 6 periodos para observar cómo evoluciona la incertidumbre a medida que se proyecta más hacia el futuro. Generalmente, la incertidumbre (y por lo tanto, la amplitud de los intervalos de confianza) aumenta con el horizonte de predicción.
+
+```{r}
+# Predicción
+prediccion <- forecast(arima_model, h = 6) # 6 periodos adelante
+plot(prediccion, main = "Predicción DIF valores diarios", xlab = "Años", ylab = "Valor")
+print(prediccion)
+
+# Prediccion con 3 periodos
+prediccion <- forecast(arima_model, h = 3) # 3 periodos adelante
+print(prediccion)
+```
+
+## Validación del Modelo (Análisis de Residuos):
+
+Un modelo ARIMA válido requiere que los residuos (la diferencia entre los valores observados y los valores predichos) cumplan con ciertos supuestos. Se realizaron las siguientes pruebas para validar el modelo:
+
+* Media cero: Se aplicó una prueba t de una muestra para verificar si la media de los residuos es significativamente diferente de cero. Un p-valor alto como el obtenido en este caso indica que no hay evidencia suficiente para rechazar la hipótesis nula de media cero.
+
+* Independencia: La prueba de Ljung-Box se utiliza para evaluar la independencia de los residuos. El p-valor alto indica que los residuos no están autocorrelacionados, lo cual es deseable.
+
+* Normalidad: Se evaluó la normalidad de los residuos utilizando un qqplot y la prueba de Shapiro-Wilk. El qqplot muestra una desviación de la normalidad, especialmente en las colas de la distribución. La prueba de Shapiro-Wilk confirmó la no normalidad de los residuos con un p-valor muy bajo. Esta no normalidad puede afectar la validez de los intervalos de confianza y las pruebas de hipótesis relacionadas con el modelo. Se recomienda considerar transformaciones de la serie o modelos alternativos si la no normalidad es severa.
+
+
+```{r}
+
+
+# Validación (detección de outliers, usando 'tsoutliers')
+outliers <- tso(indice.ts, types = c("AO", "TC", "LS", "IO"))  # Identificar outliers
+plot(outliers)
+
+
+# Supuestos del modelo ARIMA (residuos)
+mr <- outliers$fit$residuals
+# Media cero
+t.test(mr)
+# Independencia
+Box.test(mr, lag = 10, type = "Ljung-Box") #  type = "Box-Pierce" también es válido
+# Distribución normal
+qqnorm(mr)
+qqline(mr)
+shapiro.test(mr)
+```
+
+
+## Conclusiones:
+
+El análisis de series de tiempo proporciona información valiosa sobre el comportamiento pasado y futuro de las ventas del producto. El modelo ARIMA(2, 0, 1) ofrece una base para la predicción, pero la no normalidad de los residuos sugiere la necesidad de refinamiento.
+
+**Se recomienda:**
+
+Investigar a fondo las causas del punto de cambio detectado en el periodo 15.
+
+Considerar la incorporación de variables externas al modelo, como precio, promociones, competencia, o factores económicos, para mejorar la precisión de las predicciones.
+
+Explorar transformaciones de la serie, como la transformación logarítmica, para intentar estabilizar la varianza y mejorar la normalidad de los residuos.

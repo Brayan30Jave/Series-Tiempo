@@ -1,0 +1,43 @@
+--- 
+title: "Asignatura Series de Tiempo"
+author: "Brayan Hernandez Cardona -  Adriana Avila - WILLIAM ROJAS CARABALI"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+description: |
+  Este libro permite mostrar los avances realizados en la asignatura de series de tiempo.
+link-citations: yes
+github-repo: Brayan30Jave/Series-Tiempo
+---
+
+# Acerca de este libro
+
+Este libro recopila los resultados más relevantes obtenidos durante el curso de series de tiempo de la Maestría en Ciencia de Datos, incluyendo análisis, modelos y predicciones.
+
+Los datos para la realización de este book son suministrados por una empresa del sector retail en el ambito de electrónica de la cual se tiene el permiso para su uso durante esta asignatura.
+
+## Introducción 
+
+En el actual panorama empresarial, caracterizado por una dinámica competitiva intensa y fluctuaciones del mercado, la capacidad de previsión se erige como un factor determinante para la sostenibilidad y el crecimiento de las organizaciones. La predicción precisa de las ventas reviste una importancia capital para la optimización de recursos, la planificación estratégica y la toma de decisiones  en áreas clave como la gestión de inventarios, la producción y el marketing. En este contexto, el análisis de series temporales se posiciona como una metodología cuantitativa robusta con un amplio potencial para  identificar patrones, tendencias y  comportamientos recurrentes en los datos de ventas,  permitiendo la generación de pronósticos  confiables y  la anticipación a las fluctuaciones de la demanda.
+
+Esta obra se propone  profundizar  en el  marco teórico-práctico del análisis de series temporales aplicado a la predicción de ventas.  A lo largo de sus capítulos, se  abordarán  con rigor  los fundamentos  matemáticos y estadísticos de esta disciplina,  se examinarán  las  principales  técnicas de modelado  y  se  presentarán  casos de estudio.
+
+
+```{r, eval=FALSE, comment=FALSE}
+#install.packages("bookdown")
+bookdown::render_book()
+```
+
+
+```{r eval=FALSE}
+bookdown::serve_book()
+```
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
