@@ -247,19 +247,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb42-4"><a href="holt-winters-para-analisis-de-tiempo.html#cb42-4" tabindex="-1"></a></span>
 <span id="cb42-5"><a href="holt-winters-para-analisis-de-tiempo.html#cb42-5" tabindex="-1"></a><span class="co"># Visualizar la serie temporal</span></span>
 <span id="cb42-6"><a href="holt-winters-para-analisis-de-tiempo.html#cb42-6" tabindex="-1"></a><span class="fu">plot</span>(serie_tiempo, <span class="at">main =</span> <span class="st">&quot;Serie Temporal de Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Fecha&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+<p><img src="figure-html/unnamed-chunk-24-1.png" width="672" />
 * <strong>Suavizamiento exponencial simple:</strong> La aplicación del suavizamiento exponencial simple genera una línea suavizada que captura la tendencia general de la serie. Sin embargo, este método no considera la estacionalidad presente en los datos. Por lo tanto, la línea suavizada no refleja las fluctuaciones periódicas observadas en la serie original, subestimando los picos y sobrestimando los valles. Esto evidencia la necesidad de un modelo más sofisticado que incorpore la componente estacional.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="holt-winters-para-analisis-de-tiempo.html#cb43-1" tabindex="-1"></a><span class="co"># Suavizamiento exponencial simple</span></span>
 <span id="cb43-2"><a href="holt-winters-para-analisis-de-tiempo.html#cb43-2" tabindex="-1"></a>suavizado_simple <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(serie_tiempo, <span class="at">beta =</span> <span class="cn">FALSE</span>, <span class="at">gamma =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb43-3"><a href="holt-winters-para-analisis-de-tiempo.html#cb43-3" tabindex="-1"></a><span class="fu">plot</span>(suavizado_simple, <span class="at">main =</span> <span class="st">&quot;Suavizamiento Exponencial Simple&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <ul>
 <li><strong>Modelo Holt-Winters:</strong> El modelo Holt-Winters, al incorporar componentes de tendencia y estacionalidad, se ajusta de manera significativamente más precisa a los datos observados. La línea ajustada del modelo sigue de cerca las fluctuaciones de la serie, capturando tanto la tendencia ascendente como los patrones estacionales. Esto indica que el modelo es capaz de representar el comportamiento histórico de las ventas con mayor fidelidad, lo que a su vez aumenta la confiabilidad de las predicciones generadas. Asimismo esto no es indicio que presentar mejores resultados, si no que más bien, visualmente el metodo de winters trata de adaptarse al comportamiento de la demanda.</li>
 </ul>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="holt-winters-para-analisis-de-tiempo.html#cb44-1" tabindex="-1"></a><span class="co"># Aplicar el modelo Holt-Winters con componentes de tendencia y estacionalidad</span></span>
 <span id="cb44-2"><a href="holt-winters-para-analisis-de-tiempo.html#cb44-2" tabindex="-1"></a>modelo_holt_winters <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(serie_tiempo)</span>
 <span id="cb44-3"><a href="holt-winters-para-analisis-de-tiempo.html#cb44-3" tabindex="-1"></a><span class="fu">plot</span>(modelo_holt_winters, <span class="at">main =</span> <span class="st">&quot;Modelo Holt-Winters con Tendencia y Estacionalidad&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <ul>
 <li><strong>Evaluación del modelo:</strong> El modelo de winters se ve que se tiende a tomar una forma de picos y valles tratando de organizarse según la estacionalidad de los datos, en este sentido se puede ver que para ese tipo de datos puede ser mucho más eficaz que la suavización simple.</li>
 </ul>
@@ -282,7 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="holt-winters-para-analisis-de-tiempo.html#cb51-1" tabindex="-1"></a><span class="co"># Generar pronósticos para los próximos 12 períodos</span></span>
 <span id="cb51-2"><a href="holt-winters-para-analisis-de-tiempo.html#cb51-2" tabindex="-1"></a>pronostico <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo_holt_winters, <span class="at">h =</span> <span class="dv">12</span>)</span>
 <span id="cb51-3"><a href="holt-winters-para-analisis-de-tiempo.html#cb51-3" tabindex="-1"></a><span class="fu">plot</span>(pronostico, <span class="at">main =</span> <span class="st">&quot;Pronóstico de la Serie Temporal con Holt-Winters&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 </div>
 <div id="conclusiones-y-recomendaciones" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> <strong>Conclusiones y Recomendaciones:</strong><a href="holt-winters-para-analisis-de-tiempo.html#conclusiones-y-recomendaciones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
