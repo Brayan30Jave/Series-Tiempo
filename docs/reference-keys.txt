@@ -27,3 +27,9 @@ predicción-a-6-periodos
 predicción-a-3-periodos
 validación-del-modelo-análisis-de-residuos
 conclusiones
+holt-winters-para-analisis-de-tiempo
+introducción-1
+metodología-1
+resultados
+conclusiones-y-recomendaciones
+reflexión-final
