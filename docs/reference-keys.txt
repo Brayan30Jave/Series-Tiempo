@@ -33,3 +33,9 @@ metodología-1
 resultados
 conclusiones-y-recomendaciones
 reflexión-final
+modelos-estacionarios-en-series-de-tiempo
+análisis-de-las-ventas-históricas
+metodología-de-pronóstico
+resultados-del-pronóstico
+análisis-de-residuos
+conclusiones-y-recomendaciones-1

@@ -23,7 +23,7 @@
 <meta name="author" content="Brayan Hernandez Cardona - Adriana Avila - WILLIAM ROJAS CARABALI" />
 
 
-<meta name="date" content="2024-11-04" />
+<meta name="date" content="2024-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="análisis-de-series-de-tiempo-de-ventas.html"/>
-
+<link rel="next" href="holt-winters-para-analisis-de-tiempo.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -183,6 +183,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.10" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#validación-del-modelo-análisis-de-residuos"><i class="fa fa-check"></i><b>4.10</b> Validación del Modelo (Análisis de Residuos):</a></li>
 <li class="chapter" data-level="4.11" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#conclusiones"><i class="fa fa-check"></i><b>4.11</b> Conclusiones:</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html"><i class="fa fa-check"></i><b>5</b> <strong>Holt-Winters para analisis de tiempo</strong></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#introducción-1"><i class="fa fa-check"></i><b>5.1</b> <strong>Introducción</strong></a></li>
+<li class="chapter" data-level="5.2" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#metodología-1"><i class="fa fa-check"></i><b>5.2</b> <strong>Metodología:</strong></a></li>
+<li class="chapter" data-level="5.3" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#resultados"><i class="fa fa-check"></i><b>5.3</b> <strong>Resultados</strong></a></li>
+<li class="chapter" data-level="5.4" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#conclusiones-y-recomendaciones"><i class="fa fa-check"></i><b>5.4</b> <strong>Conclusiones y Recomendaciones:</strong></a></li>
+<li class="chapter" data-level="5.5" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#reflexión-final"><i class="fa fa-check"></i><b>5.5</b> <strong>Reflexión final</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html"><i class="fa fa-check"></i><b>6</b> <strong>Modelos estacionarios en series de tiempo</strong></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#análisis-de-las-ventas-históricas"><i class="fa fa-check"></i><b>6.1</b> <strong>Análisis de las Ventas Históricas</strong></a></li>
+<li class="chapter" data-level="6.2" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#metodología-de-pronóstico"><i class="fa fa-check"></i><b>6.2</b> <strong>Metodología de Pronóstico</strong></a></li>
+<li class="chapter" data-level="6.3" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#resultados-del-pronóstico"><i class="fa fa-check"></i><b>6.3</b> <strong>Resultados del Pronóstico:</strong></a></li>
+<li class="chapter" data-level="6.4" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#análisis-de-residuos"><i class="fa fa-check"></i><b>6.4</b> <strong>Análisis de Residuos</strong></a></li>
+<li class="chapter" data-level="6.5" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#conclusiones-y-recomendaciones-1"><i class="fa fa-check"></i><b>6.5</b> <strong>Conclusiones y Recomendaciones:</strong></a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -276,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Augmented Dickey-Fuller Test
 ## 
 ## data:  indice.ts
-## Dickey-Fuller = -3.046, Lag order = 3, p-value = 0.1564
+## Dickey-Fuller = -2.9377, Lag order = 3, p-value = 0.1996
 ## alternative hypothesis: stationary</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="preprocesamientoy-visualización.html#cb14-1" tabindex="-1"></a><span class="co"># Diferenciación</span></span>
 <span id="cb14-2"><a href="preprocesamientoy-visualización.html#cb14-2" tabindex="-1"></a></span>
@@ -291,7 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  Augmented Dickey-Fuller Test
 ## 
 ## data:  dif.indice.ts
-## Dickey-Fuller = -5.7382, Lag order = 3, p-value = 0.01
+## Dickey-Fuller = -5.6807, Lag order = 3, p-value = 0.01
 ## alternative hypothesis: stationary</code></pre>
 </div>
 <div id="visualización-de-la-serie-diferenciada" class="section level2 hasAnchor" number="4.4">
@@ -342,19 +358,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb22-2"><a href="preprocesamientoy-visualización.html#cb22-2" tabindex="-1"></a>arima_model <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(dif.indice.ts) <span class="co"># Usado en la serie diferenciada</span></span>
 <span id="cb22-3"><a href="preprocesamientoy-visualización.html#cb22-3" tabindex="-1"></a><span class="fu">summary</span>(arima_model)</span></code></pre></div>
 <pre><code>## Series: dif.indice.ts 
-## ARIMA(2,0,1) with zero mean 
+## ARIMA(0,0,1) with zero mean 
 ## 
 ## Coefficients:
-##           ar1      ar2      ma1
-##       -0.0897  -0.0965  -0.8751
-## s.e.   0.1982   0.1858   0.1677
+##           ma1
+##       -0.8544
+## s.e.   0.1099
 ## 
-## sigma^2 = 40.61:  log likelihood = -153.07
-## AIC=314.13   AICc=315.08   BIC=321.53
+## sigma^2 = 692.4:  log likelihood = -220.53
+## AIC=445.07   AICc=445.34   BIC=448.77
 ## 
 ## Training set error measures:
-##                      ME     RMSE      MAE MPE MAPE      MASE        ACF1
-## Training set -0.1026029 6.165966 4.421767 NaN  Inf 0.4194088 -0.01012808</code></pre>
+##                      ME     RMSE      MAE       MPE    MAPE      MASE      ACF1
+## Training set -0.4037116 26.03277 19.42164 -6.498803 189.911 0.5360862 0.1522609</code></pre>
 </div>
 <div id="detección-de-puntos-de-cambio" class="section level2 hasAnchor" number="4.8">
 <h2><span class="header-section-number">4.8</span> Detección de Puntos de Cambio:<a href="preprocesamientoy-visualización.html#detección-de-puntos-de-cambio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -403,20 +419,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb27-3"><a href="preprocesamientoy-visualización.html#cb27-3" tabindex="-1"></a><span class="fu">plot</span>(prediccion, <span class="at">main =</span> <span class="st">&quot;Predicción DIF valores diarios&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Años&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Valor&quot;</span>)</span></code></pre></div>
 <p><img src="unnamed-chunk-20-1.png" width="672" /></p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="preprocesamientoy-visualización.html#cb28-1" tabindex="-1"></a><span class="fu">print</span>(prediccion)</span></code></pre></div>
-<pre><code>##          Point Forecast      Lo 80    Hi 80      Lo 95    Hi 95
-## Jan 2021     2.84496582  -5.321986 11.01192  -9.645309 15.33524
-## Feb 2021    -0.25516199 -11.603296 11.09297 -17.610635 17.10031
-## Mar 2021    -0.25171815 -11.600145 11.09671 -17.607640 17.10420
-## Apr 2021     0.04720522 -11.327168 11.42158 -17.348398 17.44281
-## May 2021     0.02006269 -11.354474 11.39460 -17.375790 17.41592
-## Jun 2021    -0.00635577 -11.381100 11.36839 -17.402526 17.38981</code></pre>
+<pre><code>##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+## Jan 2021       15.86203 -17.86100 49.58505 -35.71289 67.43694
+## Feb 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Mar 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Apr 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## May 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Jun 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="preprocesamientoy-visualización.html#cb30-1" tabindex="-1"></a><span class="co"># Prediccion con 3 periodos</span></span>
 <span id="cb30-2"><a href="preprocesamientoy-visualización.html#cb30-2" tabindex="-1"></a>prediccion <span class="ot">&lt;-</span> <span class="fu">forecast</span>(arima_model, <span class="at">h =</span> <span class="dv">3</span>) <span class="co"># 3 periodos adelante</span></span>
 <span id="cb30-3"><a href="preprocesamientoy-visualización.html#cb30-3" tabindex="-1"></a><span class="fu">print</span>(prediccion)</span></code></pre></div>
-<pre><code>##          Point Forecast      Lo 80    Hi 80      Lo 95    Hi 95
-## Jan 2021      2.8449658  -5.321986 11.01192  -9.645309 15.33524
-## Feb 2021     -0.2551620 -11.603296 11.09297 -17.610635 17.10031
-## Mar 2021     -0.2517182 -11.600145 11.09671 -17.607640 17.10420</code></pre>
+<pre><code>##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+## Jan 2021       15.86203 -17.86100 49.58505 -35.71289 67.43694
+## Feb 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Mar 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736</code></pre>
 </div>
 </div>
 <div id="validación-del-modelo-análisis-de-residuos" class="section level2 hasAnchor" number="4.10">
@@ -430,40 +446,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="preprocesamientoy-visualización.html#cb32-1" tabindex="-1"></a><span class="co"># Validación (detección de outliers, usando &#39;tsoutliers&#39;)</span></span>
 <span id="cb32-2"><a href="preprocesamientoy-visualización.html#cb32-2" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> <span class="fu">tso</span>(indice.ts, <span class="at">types =</span> <span class="fu">c</span>(<span class="st">&quot;AO&quot;</span>, <span class="st">&quot;TC&quot;</span>, <span class="st">&quot;LS&quot;</span>, <span class="st">&quot;IO&quot;</span>))  <span class="co"># Identificar outliers</span></span>
 <span id="cb32-3"><a href="preprocesamientoy-visualización.html#cb32-3" tabindex="-1"></a><span class="fu">plot</span>(outliers)</span></code></pre></div>
-<pre><code>## &#39;x&#39; does not contain outliers to display</code></pre>
-<pre><code>## NULL</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="preprocesamientoy-visualización.html#cb35-1" tabindex="-1"></a><span class="co"># Supuestos del modelo ARIMA (residuos)</span></span>
-<span id="cb35-2"><a href="preprocesamientoy-visualización.html#cb35-2" tabindex="-1"></a>mr <span class="ot">&lt;-</span> outliers<span class="sc">$</span>fit<span class="sc">$</span>residuals</span>
-<span id="cb35-3"><a href="preprocesamientoy-visualización.html#cb35-3" tabindex="-1"></a><span class="co"># Media cero</span></span>
-<span id="cb35-4"><a href="preprocesamientoy-visualización.html#cb35-4" tabindex="-1"></a><span class="fu">t.test</span>(mr)</span></code></pre></div>
+<p><img src="unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="preprocesamientoy-visualización.html#cb33-1" tabindex="-1"></a><span class="co"># Supuestos del modelo ARIMA (residuos)</span></span>
+<span id="cb33-2"><a href="preprocesamientoy-visualización.html#cb33-2" tabindex="-1"></a>mr <span class="ot">&lt;-</span> outliers<span class="sc">$</span>fit<span class="sc">$</span>residuals</span>
+<span id="cb33-3"><a href="preprocesamientoy-visualización.html#cb33-3" tabindex="-1"></a><span class="co"># Media cero</span></span>
+<span id="cb33-4"><a href="preprocesamientoy-visualización.html#cb33-4" tabindex="-1"></a><span class="fu">t.test</span>(mr)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
 ## data:  mr
-## t = 1.1128e-12, df = 47, p-value = 1
+## t = -2.5502e-15, df = 47, p-value = 1
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -1.752442  1.752442
+##  -4.203924  4.203924
 ## sample estimates:
-##    mean of x 
-## 9.693727e-13</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="preprocesamientoy-visualización.html#cb37-1" tabindex="-1"></a><span class="co"># Independencia</span></span>
-<span id="cb37-2"><a href="preprocesamientoy-visualización.html#cb37-2" tabindex="-1"></a><span class="fu">Box.test</span>(mr, <span class="at">lag =</span> <span class="dv">10</span>, <span class="at">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>) <span class="co">#  type = &quot;Box-Pierce&quot; también es válido</span></span></code></pre></div>
+##     mean of x 
+## -5.329071e-15</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="preprocesamientoy-visualización.html#cb35-1" tabindex="-1"></a><span class="co"># Independencia</span></span>
+<span id="cb35-2"><a href="preprocesamientoy-visualización.html#cb35-2" tabindex="-1"></a><span class="fu">Box.test</span>(mr, <span class="at">lag =</span> <span class="dv">10</span>, <span class="at">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>) <span class="co">#  type = &quot;Box-Pierce&quot; también es válido</span></span></code></pre></div>
 <pre><code>## 
 ##  Box-Ljung test
 ## 
 ## data:  mr
-## X-squared = 2.9461, df = 10, p-value = 0.9827</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="preprocesamientoy-visualización.html#cb39-1" tabindex="-1"></a><span class="co"># Distribución normal</span></span>
-<span id="cb39-2"><a href="preprocesamientoy-visualización.html#cb39-2" tabindex="-1"></a><span class="fu">qqnorm</span>(mr)</span>
-<span id="cb39-3"><a href="preprocesamientoy-visualización.html#cb39-3" tabindex="-1"></a><span class="fu">qqline</span>(mr)</span></code></pre></div>
-<p><img src="unnamed-chunk-21-1.png" width="672" /></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="preprocesamientoy-visualización.html#cb40-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(mr)</span></code></pre></div>
+## X-squared = 8.3789, df = 10, p-value = 0.5919</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="preprocesamientoy-visualización.html#cb37-1" tabindex="-1"></a><span class="co"># Distribución normal</span></span>
+<span id="cb37-2"><a href="preprocesamientoy-visualización.html#cb37-2" tabindex="-1"></a><span class="fu">qqnorm</span>(mr)</span>
+<span id="cb37-3"><a href="preprocesamientoy-visualización.html#cb37-3" tabindex="-1"></a><span class="fu">qqline</span>(mr)</span></code></pre></div>
+<p><img src="unnamed-chunk-21-2.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="preprocesamientoy-visualización.html#cb38-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(mr)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  mr
-## W = 0.64698, p-value = 1.721e-09</code></pre>
+## W = 0.96886, p-value = 0.2287</code></pre>
 </div>
 <div id="conclusiones" class="section level2 hasAnchor" number="4.11">
 <h2><span class="header-section-number">4.11</span> Conclusiones:<a href="preprocesamientoy-visualización.html#conclusiones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -480,8 +495,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="análisis-de-series-de-tiempo-de-ventas.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="análisis-de-series-de-tiempo-de-ventas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="holt-winters-para-analisis-de-tiempo.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

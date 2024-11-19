@@ -120,7 +120,7 @@
 
 \title{Asignatura Series de Tiempo}
 \author{Brayan Hernandez Cardona - Adriana Avila - WILLIAM ROJAS CARABALI}
-\date{2024-11-04}
+\date{2024-11-18}
 
 \begin{document}
 \maketitle
@@ -467,7 +467,7 @@ Se empleó el lenguaje de programación R, aprovechando sus potentes librerías 
 ##  Augmented Dickey-Fuller Test
 ## 
 ## data:  indice.ts
-## Dickey-Fuller = -3.046, Lag order = 3, p-value = 0.1564
+## Dickey-Fuller = -2.9377, Lag order = 3, p-value = 0.1996
 ## alternative hypothesis: stationary
 \end{verbatim}
 
@@ -498,7 +498,7 @@ Se empleó el lenguaje de programación R, aprovechando sus potentes librerías 
 ##  Augmented Dickey-Fuller Test
 ## 
 ## data:  dif.indice.ts
-## Dickey-Fuller = -5.7382, Lag order = 3, p-value = 0.01
+## Dickey-Fuller = -5.6807, Lag order = 3, p-value = 0.01
 ## alternative hypothesis: stationary
 \end{verbatim}
 
@@ -596,19 +596,19 @@ En resumen, el modelo ARIMA(2, 0, 1) captura la dinámica de la serie diferencia
 
 \begin{verbatim}
 ## Series: dif.indice.ts 
-## ARIMA(2,0,1) with zero mean 
+## ARIMA(0,0,1) with zero mean 
 ## 
 ## Coefficients:
-##           ar1      ar2      ma1
-##       -0.0897  -0.0965  -0.8751
-## s.e.   0.1982   0.1858   0.1677
+##           ma1
+##       -0.8544
+## s.e.   0.1099
 ## 
-## sigma^2 = 40.61:  log likelihood = -153.07
-## AIC=314.13   AICc=315.08   BIC=321.53
+## sigma^2 = 692.4:  log likelihood = -220.53
+## AIC=445.07   AICc=445.34   BIC=448.77
 ## 
 ## Training set error measures:
-##                      ME     RMSE      MAE MPE MAPE      MASE        ACF1
-## Training set -0.1026029 6.165966 4.421767 NaN  Inf 0.4194088 -0.01012808
+##                      ME     RMSE      MAE       MPE    MAPE      MASE      ACF1
+## Training set -0.4037116 26.03277 19.42164 -6.498803 189.911 0.5360862 0.1522609
 \end{verbatim}
 
 \section{Detección de Puntos de Cambio:}\label{detecciuxf3n-de-puntos-de-cambio}
@@ -692,13 +692,13 @@ El print(prediccion) para 3 periodos ofrece la misma información, pero solo par
 \end{Shaded}
 
 \begin{verbatim}
-##          Point Forecast      Lo 80    Hi 80      Lo 95    Hi 95
-## Jan 2021     2.84496582  -5.321986 11.01192  -9.645309 15.33524
-## Feb 2021    -0.25516199 -11.603296 11.09297 -17.610635 17.10031
-## Mar 2021    -0.25171815 -11.600145 11.09671 -17.607640 17.10420
-## Apr 2021     0.04720522 -11.327168 11.42158 -17.348398 17.44281
-## May 2021     0.02006269 -11.354474 11.39460 -17.375790 17.41592
-## Jun 2021    -0.00635577 -11.381100 11.36839 -17.402526 17.38981
+##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+## Jan 2021       15.86203 -17.86100 49.58505 -35.71289 67.43694
+## Feb 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Mar 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Apr 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## May 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Jun 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
 \end{verbatim}
 
 \begin{Shaded}
@@ -710,10 +710,10 @@ El print(prediccion) para 3 periodos ofrece la misma información, pero solo par
 \end{Shaded}
 
 \begin{verbatim}
-##          Point Forecast      Lo 80    Hi 80      Lo 95    Hi 95
-## Jan 2021      2.8449658  -5.321986 11.01192  -9.645309 15.33524
-## Feb 2021     -0.2551620 -11.603296 11.09297 -17.610635 17.10031
-## Mar 2021     -0.2517182 -11.600145 11.09671 -17.607640 17.10420
+##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+## Jan 2021       15.86203 -17.86100 49.58505 -35.71289 67.43694
+## Feb 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
+## Mar 2021        0.00000 -44.35647 44.35647 -67.83736 67.83736
 \end{verbatim}
 
 \section{Validación del Modelo (Análisis de Residuos):}\label{validaciuxf3n-del-modelo-anuxe1lisis-de-residuos}
@@ -737,13 +737,7 @@ Un modelo ARIMA válido requiere que los residuos (la diferencia entre los valor
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## 'x' does not contain outliers to display
-\end{verbatim}
-
-\begin{verbatim}
-## NULL
-\end{verbatim}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -759,13 +753,13 @@ Un modelo ARIMA válido requiere que los residuos (la diferencia entre los valor
 ##  One Sample t-test
 ## 
 ## data:  mr
-## t = 1.1128e-12, df = 47, p-value = 1
+## t = -2.5502e-15, df = 47, p-value = 1
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
-##  -1.752442  1.752442
+##  -4.203924  4.203924
 ## sample estimates:
-##    mean of x 
-## 9.693727e-13
+##     mean of x 
+## -5.329071e-15
 \end{verbatim}
 
 \begin{Shaded}
@@ -780,7 +774,7 @@ Un modelo ARIMA válido requiere que los residuos (la diferencia entre los valor
 ##  Box-Ljung test
 ## 
 ## data:  mr
-## X-squared = 2.9461, df = 10, p-value = 0.9827
+## X-squared = 8.3789, df = 10, p-value = 0.5919
 \end{verbatim}
 
 \begin{Shaded}
@@ -791,7 +785,7 @@ Un modelo ARIMA válido requiere que los residuos (la diferencia entre los valor
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{_main_files/figure-latex/unnamed-chunk-21-1.pdf}
+\includegraphics{_main_files/figure-latex/unnamed-chunk-21-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -804,7 +798,7 @@ Un modelo ARIMA válido requiere que los residuos (la diferencia entre los valor
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  mr
-## W = 0.64698, p-value = 1.721e-09
+## W = 0.96886, p-value = 0.2287
 \end{verbatim}
 
 \section{Conclusiones:}\label{conclusiones}
@@ -818,6 +812,327 @@ Investigar a fondo las causas del punto de cambio detectado en el periodo 15.
 Considerar la incorporación de variables externas al modelo, como precio, promociones, competencia, o factores económicos, para mejorar la precisión de las predicciones.
 
 Explorar transformaciones de la serie, como la transformación logarítmica, para intentar estabilizar la varianza y mejorar la normalidad de los residuos.
+
+\chapter{\texorpdfstring{\textbf{Holt-Winters para analisis de tiempo}}{Holt-Winters para analisis de tiempo}}\label{holt-winters-para-analisis-de-tiempo}
+
+\section{\texorpdfstring{\textbf{Introducción}}{Introducción}}\label{introducciuxf3n-1}
+
+La gestión eficiente del inventario es un pilar fundamental para el éxito en el competitivo mercado minorista actual. Un inventario excesivo genera costos de almacenamiento, obsolescencia y depreciación, mientras que un inventario insuficiente resulta en pérdidas de ventas, insatisfacción del cliente y daño a la imagen de la marca. Encontrar el equilibrio óptimo entre la oferta y la demanda es crucial para maximizar la rentabilidad y la eficiencia operativa.
+
+Este informe se centra en el análisis de las series temporales de ventas de una empresa retail, con el propósito de pronosticar la demanda futura y, en consecuencia, optimizar la gestión de inventario. A través de la aplicación de técnicas estadísticas de series temporales, podemos identificar patrones, tendencias y estacionalidades en los datos históricos de ventas, lo que nos permite anticipar las fluctuaciones de la demanda y tomar decisiones informadas sobre la cantidad de productos a mantener en stock.
+
+\section{\texorpdfstring{\textbf{Metodología:}}{Metodología:}}\label{metodologuxeda-1}
+
+Se utilizó el método de Holt-Winters para el análisis y pronóstico de la demanda. Este método es particularmente adecuado para series temporales que presentan tanto tendencia como estacionalidad, características observadas en nuestros datos de ventas. El proceso incluyó los siguientes pasos:
+
+\begin{itemize}
+\item
+  \textbf{Preparación de los datos:} Se agregaron las cantidades vendidas por fecha, convirtiendo la información en una serie temporal.
+\item
+  \textbf{Suavizamiento exponencial simple:} Se aplicó inicialmente un suavizamiento exponencial simple para una primera aproximación al comportamiento de la serie.
+\item
+  \textbf{Modelo Holt-Winters:} Se implementó el modelo Holt-Winters, incorporando componentes de tendencia y estacionalidad para un ajuste más preciso.
+\item
+  \textbf{Evaluación del modelo:} Se calculó el error de suma de cuadrados (SSE) para evaluar la precisión del modelo.
+\item
+  \textbf{Pronóstico:} Se generaron pronósticos para los próximos 12 periodos.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar la librería forecast para predicciones}
+\FunctionTok{library}\NormalTok{(forecast)}
+\FunctionTok{library}\NormalTok{(Metrics)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Leer los datos y transformar los datos}
+\NormalTok{datos }\OtherTok{\textless{}{-}}\NormalTok{ readxl}\SpecialCharTok{::}\FunctionTok{read\_excel}\NormalTok{(}\StringTok{"MUESTRA SERIE TIEMPO.xlsx"}\NormalTok{)}
+\NormalTok{datos}\SpecialCharTok{$}\NormalTok{transaction\_date }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{transaction\_date, }\AttributeTok{origin=}\StringTok{"1899{-}12{-}30"}\NormalTok{)}
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(quantity }\SpecialCharTok{\textasciitilde{}}\NormalTok{ transaction\_date, }\AttributeTok{data =}\NormalTok{ datos, }\AttributeTok{FUN =}\NormalTok{ sum)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{\texorpdfstring{\textbf{Resultados}}{Resultados}}\label{resultados}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Visualización de la serie:} El gráfico inicial de la serie temporal de ventas ilustra la evolución de la cantidad de productos vendidos a lo largo del tiempo. Se observa una clara tendencia general al alza, lo que indica un crecimiento en la demanda a lo largo de los años. Además, se aprecia un patrón estacional repetitivo, con picos y valles que ocurren en periodos similares cada año. Esta estacionalidad sugiere la influencia de factores recurrentes, como temporadas de compras o eventos específicos, en el comportamiento de las ventas.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convertir los datos a un objeto de serie temporal}
+\NormalTok{serie\_tiempo }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{quantity, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2017}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{end =} \FunctionTok{c}\NormalTok{(}\DecValTok{2020}\NormalTok{, }\DecValTok{12}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
+
+
+\CommentTok{\# Visualizar la serie temporal}
+\FunctionTok{plot}\NormalTok{(serie\_tiempo, }\AttributeTok{main =} \StringTok{"Serie Temporal de Tiempo"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Tiempo"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Fecha"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-24-1.pdf}
+* \textbf{Suavizamiento exponencial simple:} La aplicación del suavizamiento exponencial simple genera una línea suavizada que captura la tendencia general de la serie. Sin embargo, este método no considera la estacionalidad presente en los datos. Por lo tanto, la línea suavizada no refleja las fluctuaciones periódicas observadas en la serie original, subestimando los picos y sobrestimando los valles. Esto evidencia la necesidad de un modelo más sofisticado que incorpore la componente estacional.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Suavizamiento exponencial simple}
+\NormalTok{suavizado\_simple }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(serie\_tiempo, }\AttributeTok{beta =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{gamma =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(suavizado\_simple, }\AttributeTok{main =} \StringTok{"Suavizamiento Exponencial Simple"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-25-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Modelo Holt-Winters:} El modelo Holt-Winters, al incorporar componentes de tendencia y estacionalidad, se ajusta de manera significativamente más precisa a los datos observados. La línea ajustada del modelo sigue de cerca las fluctuaciones de la serie, capturando tanto la tendencia ascendente como los patrones estacionales. Esto indica que el modelo es capaz de representar el comportamiento histórico de las ventas con mayor fidelidad, lo que a su vez aumenta la confiabilidad de las predicciones generadas. Asimismo esto no es indicio que presentar mejores resultados, si no que más bien, visualmente el metodo de winters trata de adaptarse al comportamiento de la demanda.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Aplicar el modelo Holt{-}Winters con componentes de tendencia y estacionalidad}
+\NormalTok{modelo\_holt\_winters }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(serie\_tiempo)}
+\FunctionTok{plot}\NormalTok{(modelo\_holt\_winters, }\AttributeTok{main =} \StringTok{"Modelo Holt{-}Winters con Tendencia y Estacionalidad"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-26-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Evaluación del modelo:} El modelo de winters se ve que se tiende a tomar una forma de picos y valles tratando de organizarse según la estacionalidad de los datos, en este sentido se puede ver que para ese tipo de datos puede ser mucho más eficaz que la suavización simple.
+\end{itemize}
+
+Para esto caso cabe resaltar que los datos de ventas tienen un comportamiento estable o perpetuo, es decir, no representa una estacionalidad marcada a lo largo del tiempo y la distribución de su forma es más homogenea, esto afecta al modelo de winters dado que no es un dataset para el que este modelo se halla pensado.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Pronóstico a 12 periodos:} El gráfico del pronóstico muestra la proyección de la demanda para los próximos 12 periodos, considerando tanto la tendencia ascendente como el patrón estacional identificado en los datos históricos. Las líneas azules representan el intervalo de confianza del pronóstico, indicando el rango dentro del cual se espera que se encuentren las ventas futuras con un cierto nivel de probabilidad. Este pronóstico proporciona una herramienta valiosa para la planificación de la gestión de inventario, permitiendo anticipar las fluctuaciones de la demanda y tomar decisiones informadas sobre la adquisición y el almacenamiento de productos.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular las métricas de precisión}
+\NormalTok{rmse }\OtherTok{\textless{}{-}} \FunctionTok{rmse}\NormalTok{(serie\_tiempo, modelo\_holt\_winters}\SpecialCharTok{$}\NormalTok{fitted)}
+\NormalTok{mae }\OtherTok{\textless{}{-}} \FunctionTok{mae}\NormalTok{(serie\_tiempo, modelo\_holt\_winters}\SpecialCharTok{$}\NormalTok{fitted)}
+\NormalTok{mape }\OtherTok{\textless{}{-}} \FunctionTok{mape}\NormalTok{(serie\_tiempo, modelo\_holt\_winters}\SpecialCharTok{$}\NormalTok{fitted) }\SpecialCharTok{*} \DecValTok{100}
+
+\CommentTok{\# Imprimir las métricas}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"RMSE:"}\NormalTok{, rmse, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## RMSE: 36.73575
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"MAE:"}\NormalTok{, mae, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## MAE: 27.51567
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"MAPE:"}\NormalTok{, mape, }\StringTok{"\%"}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## MAPE: 107.8621 %
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Generar pronósticos para los próximos 12 períodos}
+\NormalTok{pronostico }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(modelo\_holt\_winters, }\AttributeTok{h =} \DecValTok{12}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(pronostico, }\AttributeTok{main =} \StringTok{"Pronóstico de la Serie Temporal con Holt{-}Winters"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-27-1.pdf}
+
+\section{\texorpdfstring{\textbf{Conclusiones y Recomendaciones:}}{Conclusiones y Recomendaciones:}}\label{conclusiones-y-recomendaciones}
+
+El análisis de series temporales realizado mediante el modelo Holt-Winters ha demostrado ser una herramienta eficaz para pronosticar las ventas de un conjunto estacional. Pero así mismo, cuando se prueba sobre un dataset con datos más perpetuos, puede verse que le cuesta mucho ya que sobreestima el movimiento de la demanda.
+
+A pesar de esto, podemos ver como las series de tiempo ha estudiado diversidad de comportamientos y esta totlamente comprobado que cada modelo es muy bueno en su campo y este punto debe respetarse.
+
+El pronóstico generado para los próximos 12 periodos ofrece una visión anticipada de la demanda esperada, lo que permite una planificación más precisa y eficiente. En base a estos resultados.
+
+\section{\texorpdfstring{\textbf{Reflexión final}}{Reflexión final}}\label{reflexiuxf3n-final}
+
+\begin{itemize}
+\item
+  Este análisis demuestra el valor estratégico que aporta la ciencia de datos a la gestión de inventario en el sector retail. La capacidad de analizar grandes volúmenes de datos, identificar patrones complejos y generar pronósticos precisos, como se ha demostrado con la aplicación del modelo Holt-Winters, transforma la toma de decisiones de un enfoque reactivo a uno proactivo.
+\item
+  En un entorno cada vez más competitivo y dinámico, la ciencia de datos se convierte en una herramienta indispensable para anticipar las fluctuaciones de la demanda, optimizar los niveles de inventario y maximizar la eficiencia de la cadena de suministro. La inversión en herramientas y capacidades analíticas no solo mejora la gestión de inventario, sino que también impulsa la rentabilidad, la satisfacción del cliente y la ventaja competitiva en el mercado. A medida que la cantidad de datos disponibles continúa creciendo, el potencial de la ciencia de datos para optimizar las operaciones y la toma de decisiones estratégicas en el sector retail se amplía aún más. La adopción de estas técnicas no es simplemente una ventaja, sino una necesidad para las empresas que buscan prosperar en el futuro.
+\end{itemize}
+
+\chapter{\texorpdfstring{\textbf{Modelos estacionarios en series de tiempo}}{Modelos estacionarios en series de tiempo}}\label{modelos-estacionarios-en-series-de-tiempo}
+
+Este informe presenta un análisis de las ventas históricas y un pronóstico para los próximos 12 meses. El objetivo es proporcionar información clara y accionable para la toma de decisiones estratégicas. Utilizamos métodos estadísticos robustos para identificar patrones, tendencias y estacionalidades en los datos de ventas, lo que nos permite anticipar la demanda futura.
+
+\section{\texorpdfstring{\textbf{Análisis de las Ventas Históricas}}{Análisis de las Ventas Históricas}}\label{anuxe1lisis-de-las-ventas-histuxf3ricas}
+
+Inicialmente, se realizó una revisión detallada del historial de ventas. Se observaron fluctuaciones a lo largo del tiempo, lo que sugiere la presencia de patrones recurrentes y posibles factores externos que influyen en las ventas. Para comprender mejor estas fluctuaciones, aplicamos diversas técnicas de análisis de series de tiempo. La visualización de los datos a través de gráficos nos permitió identificar tendencias generales y estacionalidades. Se emplearon herramientas estadísticas como la función de autocorrelación para determinar la relación entre las ventas en diferentes momentos del tiempo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(forecast) }
+\FunctionTok{library}\NormalTok{(tseries)  }
+
+\NormalTok{datos }\OtherTok{\textless{}{-}}\NormalTok{ readxl}\SpecialCharTok{::}\FunctionTok{read\_excel}\NormalTok{(}\StringTok{"MUESTRA SERIE TIEMPO.xlsx"}\NormalTok{)}
+\FunctionTok{sum}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{quantity)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 56617
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{datos}\SpecialCharTok{$}\NormalTok{transaction\_date }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{transaction\_date, }\AttributeTok{origin=}\StringTok{"1899{-}12{-}30"}\NormalTok{)}
+
+\NormalTok{datos\_ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{quantity, }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2017}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{end =} \FunctionTok{c}\NormalTok{(}\DecValTok{2020}\NormalTok{,}\DecValTok{12}\NormalTok{)) }
+
+\FunctionTok{plot}\NormalTok{(datos\_ts) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-28-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{acf}\NormalTok{(datos\_ts)  }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-28-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pacf}\NormalTok{(datos\_ts) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-28-3.pdf}
+
+Se comprobó la estacionariedad de la serie de tiempo, es decir, se verificó si las propiedades estadísticas de la serie, como la media y la varianza, permanecen constantes a lo largo del tiempo. En caso de no ser estacionaria, se aplicaron transformaciones para estabilizar la serie y obtener resultados más fiables en el pronóstico.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{adf.test}\NormalTok{(datos\_ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  datos_ts
+## Dickey-Fuller = -2.7329, Lag order = 3, p-value = 0.2814
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Si la prueba indica que la serie no es estacionaria, deberás diferenciarla:}
+\NormalTok{datos\_ts\_diff }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(datos\_ts)}
+
+\FunctionTok{adf.test}\NormalTok{(datos\_ts\_diff)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  datos_ts_diff
+## Dickey-Fuller = -4.6247, Lag order = 3, p-value = 0.01
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\section{\texorpdfstring{\textbf{Metodología de Pronóstico}}{Metodología de Pronóstico}}\label{metodologuxeda-de-pronuxf3stico}
+
+Para generar el pronóstico, utilizamos un modelo ARIMA. Este modelo es especialmente adecuado para series de tiempo que presentan autocorrelación, es decir, cuando los valores pasados influyen en los valores futuros. El modelo ARIMA se seleccionó automáticamente con base en criterios de información que buscan el mejor ajuste a los datos históricos. Además del modelo ARIMA, se exploraron otras metodologías de pronóstico, como el modelo de Holt-Winters, el cual es particularmente útil para series de tiempo que presentan tendencias y estacionalidades. Esto nos permitió comparar diferentes enfoques y seleccionar el modelo que mejor se adapta a las características de los datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_auto }\OtherTok{\textless{}{-}} \FunctionTok{auto.arima}\NormalTok{(datos\_ts\_diff, }\AttributeTok{ic =} \StringTok{"bic"}\NormalTok{) }
+\FunctionTok{summary}\NormalTok{(modelo\_auto)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: datos_ts_diff 
+## ARIMA(1,0,0) with zero mean 
+## 
+## Coefficients:
+##           ar1
+##       -0.5468
+## s.e.   0.1299
+## 
+## sigma^2 = 227.5:  log likelihood = -193.9
+## AIC=391.79   AICc=392.07   BIC=395.49
+## 
+## Training set error measures:
+##                     ME     RMSE      MAE      MPE     MAPE      MASE       ACF1
+## Training set 0.4678724 14.92075 11.85491 80.97321 148.3785 0.6092831 -0.1055607
+\end{verbatim}
+
+\section{\texorpdfstring{\textbf{Resultados del Pronóstico:}}{Resultados del Pronóstico:}}\label{resultados-del-pronuxf3stico}
+
+El pronóstico generado por el modelo se presenta en un gráfico que muestra las ventas esperadas para los próximos 12 meses, junto con intervalos de confianza. Estos intervalos indican el rango dentro del cual se espera que se encuentren las ventas futuras con un cierto nivel de probabilidad. Es importante destacar que los pronósticos son estimaciones basadas en datos históricos y en las propiedades estadísticas de la serie de tiempo. Por lo tanto, existe un grado de incertidumbre asociado a los valores pronosticados. Es fundamental monitorear el desempeño real de las ventas y compararlas con el pronóstico para realizar ajustes en el modelo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pronóstico }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(modelo\_auto, }\AttributeTok{h =} \DecValTok{12}\NormalTok{) }
+\FunctionTok{plot}\NormalTok{(pronóstico)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\section{\texorpdfstring{\textbf{Análisis de Residuos}}{Análisis de Residuos}}\label{anuxe1lisis-de-residuos}
+
+Para validar la confiabilidad del modelo, se realizó un análisis de los residuos, que son las diferencias entre los valores reales y los valores pronosticados por el modelo. Se verificó si los residuos cumplen con las propiedades estadísticas deseadas, como la media cero y la varianza constante. Este análisis nos permite evaluar la calidad del ajuste del modelo y detectar posibles desviaciones o patrones no explicados.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{checkresiduals}\NormalTok{(modelo\_auto)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-32-1.pdf}
+
+\begin{verbatim}
+## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(1,0,0) with zero mean
+## Q* = 10.279, df = 8, p-value = 0.246
+## 
+## Model df: 1.   Total lags used: 9
+\end{verbatim}
+
+\section{\texorpdfstring{\textbf{Conclusiones y Recomendaciones:}}{Conclusiones y Recomendaciones:}}\label{conclusiones-y-recomendaciones-1}
+
+El análisis de series de tiempo proporciona información valiosa. El pronóstico de ventas permite anticipar la demanda futura y optimizar la gestión de inventarios, la asignación de recursos y las estrategias de marketing.
+
+Se recomienda utilizar el pronóstico generado como una herramienta de apoyo para la toma de decisiones, pero siempre teniendo en cuenta la incertidumbre inherente a los pronósticos. Es importante monitorear el desempeño real de las ventas y ajustar las estrategias de la empresa en función de los resultados observados.
 
   \bibliography{book.bib,packages.bib}
 
