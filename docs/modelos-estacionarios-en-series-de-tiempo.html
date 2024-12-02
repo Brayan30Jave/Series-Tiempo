@@ -23,7 +23,7 @@
 <meta name="author" content="Brayan Hernandez Cardona - Adriana Avila - WILLIAM ROJAS CARABALI" />
 
 
-<meta name="date" content="2024-11-18" />
+<meta name="date" content="2024-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="holt-winters-para-analisis-de-tiempo.html"/>
-
+<link rel="next" href="group-6-documento-bookdown---propuesta-avance-6.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -199,6 +199,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#análisis-de-residuos"><i class="fa fa-check"></i><b>6.4</b> <strong>Análisis de Residuos</strong></a></li>
 <li class="chapter" data-level="6.5" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#conclusiones-y-recomendaciones-1"><i class="fa fa-check"></i><b>6.5</b> <strong>Conclusiones y Recomendaciones:</strong></a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html"><i class="fa fa-check"></i><b>7</b> Group 6: Documento Bookdown - Propuesta avance 6</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#introducción-2"><i class="fa fa-check"></i><b>7.1</b> Introducción</a></li>
+<li class="chapter" data-level="7.2" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#preprocesamiento-de-datos"><i class="fa fa-check"></i><b>7.2</b> Preprocesamiento de Datos</a></li>
+<li class="chapter" data-level="7.3" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#prueba-de-estacionariedad"><i class="fa fa-check"></i><b>7.3</b> Prueba de Estacionariedad</a></li>
+<li class="chapter" data-level="7.4" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#análisis-de-acf-y-pacf"><i class="fa fa-check"></i><b>7.4</b> Análisis de ACF y PACF</a></li>
+<li class="chapter" data-level="7.5" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#ajuste-del-modelo-arima"><i class="fa fa-check"></i><b>7.5</b> Ajuste del Modelo ARIMA</a></li>
+<li class="chapter" data-level="7.6" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#predicción-1"><i class="fa fa-check"></i><b>7.6</b> Predicción</a></li>
+<li class="chapter" data-level="7.7" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#detección-de-puntos-de-cambio-1"><i class="fa fa-check"></i><b>7.7</b> Detección de Puntos de Cambio</a></li>
+<li class="chapter" data-level="7.8" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#conclusión-1"><i class="fa fa-check"></i><b>7.8</b> Conclusión</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -236,11 +247,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb54-3"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb54-3" tabindex="-1"></a>datos_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(datos<span class="sc">$</span>quantity, <span class="at">frequency =</span> <span class="dv">12</span>, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2020</span>,<span class="dv">12</span>)) </span>
 <span id="cb54-4"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb54-4" tabindex="-1"></a></span>
 <span id="cb54-5"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb54-5" tabindex="-1"></a><span class="fu">plot</span>(datos_ts) </span></code></pre></div>
-<p><img src="unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb55-1" tabindex="-1"></a><span class="fu">acf</span>(datos_ts)  </span></code></pre></div>
-<p><img src="unnamed-chunk-28-2.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-28-2.png" width="672" /></p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb56-1" tabindex="-1"></a><span class="fu">pacf</span>(datos_ts) </span></code></pre></div>
-<p><img src="unnamed-chunk-28-3.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-28-3.png" width="672" /></p>
 <p>Se comprobó la estacionariedad de la serie de tiempo, es decir, se verificó si las propiedades estadísticas de la serie, como la media y la varianza, permanecen constantes a lo largo del tiempo. En caso de no ser estacionaria, se aplicaron transformaciones para estabilizar la serie y obtener resultados más fiables en el pronóstico.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb57-1" tabindex="-1"></a><span class="fu">adf.test</span>(datos_ts)</span></code></pre></div>
 <pre><code>## 
@@ -285,13 +296,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>El pronóstico generado por el modelo se presenta en un gráfico que muestra las ventas esperadas para los próximos 12 meses, junto con intervalos de confianza. Estos intervalos indican el rango dentro del cual se espera que se encuentren las ventas futuras con un cierto nivel de probabilidad. Es importante destacar que los pronósticos son estimaciones basadas en datos históricos y en las propiedades estadísticas de la serie de tiempo. Por lo tanto, existe un grado de incertidumbre asociado a los valores pronosticados. Es fundamental monitorear el desempeño real de las ventas y compararlas con el pronóstico para realizar ajustes en el modelo.</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb63-1" tabindex="-1"></a>pronóstico <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo_auto, <span class="at">h =</span> <span class="dv">12</span>) </span>
 <span id="cb63-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb63-2" tabindex="-1"></a><span class="fu">plot</span>(pronóstico)</span></code></pre></div>
-<p><img src="unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 </div>
 <div id="análisis-de-residuos" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> <strong>Análisis de Residuos</strong><a href="modelos-estacionarios-en-series-de-tiempo.html#análisis-de-residuos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Para validar la confiabilidad del modelo, se realizó un análisis de los residuos, que son las diferencias entre los valores reales y los valores pronosticados por el modelo. Se verificó si los residuos cumplen con las propiedades estadísticas deseadas, como la media cero y la varianza constante. Este análisis nos permite evaluar la calidad del ajuste del modelo y detectar posibles desviaciones o patrones no explicados.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb64-1" tabindex="-1"></a><span class="fu">checkresiduals</span>(modelo_auto)</span></code></pre></div>
-<p><img src="unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
@@ -312,8 +323,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="holt-winters-para-analisis-de-tiempo.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="holt-winters-para-analisis-de-tiempo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="group-6-documento-bookdown---propuesta-avance-6.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -120,7 +120,7 @@
 
 \title{Asignatura Series de Tiempo}
 \author{Brayan Hernandez Cardona - Adriana Avila - WILLIAM ROJAS CARABALI}
-\date{2024-11-18}
+\date{2024-12-01}
 
 \begin{document}
 \maketitle
@@ -1133,6 +1133,272 @@ Para validar la confiabilidad del modelo, se realizó un análisis de los residu
 El análisis de series de tiempo proporciona información valiosa. El pronóstico de ventas permite anticipar la demanda futura y optimizar la gestión de inventarios, la asignación de recursos y las estrategias de marketing.
 
 Se recomienda utilizar el pronóstico generado como una herramienta de apoyo para la toma de decisiones, pero siempre teniendo en cuenta la incertidumbre inherente a los pronósticos. Es importante monitorear el desempeño real de las ventas y ajustar las estrategias de la empresa en función de los resultados observados.
+
+\chapter{Group 6: Documento Bookdown - Propuesta avance 6}\label{group-6-documento-bookdown---propuesta-avance-6}
+
+\section{Introducción}\label{introducciuxf3n-2}
+
+Este informe presenta un análisis de los datos de series temporales de la cantidad de ventas. Los datos fueron agregados por fecha de transacción, y se aplicaron varios tests y modelos estadísticos para entender los patrones subyacentes y predecir tendencias futuras. El análisis se realizó utilizando R, centrándose en la estacionariedad, el ajuste del modelo y la predicción utilizando ARIMA, así como en la detección de valores atípicos y puntos de cambio.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"forecast"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"forecast"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"tseries"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"tseries"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"timsac"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"timsac"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"changepoint"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"changepoint"}\NormalTok{)}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"tsoutliers"}\NormalTok{)) }\FunctionTok{install.packages}\NormalTok{(}\StringTok{"tsoutliers"}\NormalTok{)}
+
+\FunctionTok{library}\NormalTok{(forecast)}
+\FunctionTok{library}\NormalTok{(tseries)}
+\FunctionTok{library}\NormalTok{(timsac)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(changepoint)}
+\FunctionTok{library}\NormalTok{(tsoutliers)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Preprocesamiento de Datos}\label{preprocesamiento-de-datos}
+
+Los datos de cantidad de ventas fueron procesados inicialmente agregando las cantidades por fecha de transacción. La serie temporal se creó comenzando desde la primera fecha disponible, utilizando una frecuencia diaria para asegurar una cobertura integral del comportamiento de las ventas a lo largo del tiempo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{datos}\OtherTok{\textless{}{-}}\NormalTok{readxl}\SpecialCharTok{::}\FunctionTok{read\_excel}\NormalTok{(}\StringTok{"MUESTRA SERIE TIEMPO.xlsx"}\NormalTok{)}
+\NormalTok{datos}\SpecialCharTok{$}\NormalTok{transaction\_date }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{transaction\_date, }\AttributeTok{origin =} \StringTok{"1900{-}01{-}01"}\NormalTok{)}
+
+\NormalTok{datos }\OtherTok{\textless{}{-}}\NormalTok{ datos[}\FunctionTok{order}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{transaction\_date), ]}
+
+\CommentTok{\# Aggregate the quantity sold per day (or other metric as needed)}
+\NormalTok{agg\_data }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(quantity }\SpecialCharTok{\textasciitilde{}}\NormalTok{ transaction\_date, }\AttributeTok{data =}\NormalTok{ datos, sum)}
+
+\CommentTok{\# Convert the data to a time series starting from the earliest date}
+\NormalTok{start\_year }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{format}\NormalTok{(}\FunctionTok{min}\NormalTok{(agg\_data}\SpecialCharTok{$}\NormalTok{transaction\_date), }\StringTok{"\%Y"}\NormalTok{))}
+\NormalTok{start\_day }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{format}\NormalTok{(}\FunctionTok{min}\NormalTok{(agg\_data}\SpecialCharTok{$}\NormalTok{transaction\_date), }\StringTok{"\%j"}\NormalTok{))}
+
+\CommentTok{\# Create a time series object from the aggregated data}
+\NormalTok{quantity.ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(agg\_data}\SpecialCharTok{$}\NormalTok{quantity, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(start\_year, start\_day), }\AttributeTok{frequency =} \DecValTok{365}\NormalTok{)}
+
+\CommentTok{\# Plot the original time series}
+\FunctionTok{plot}\NormalTok{(quantity.ts, }\AttributeTok{main=}\StringTok{"Sales Quantity Time Series"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Quantity"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-34-1.pdf}
+
+\section{Prueba de Estacionariedad}\label{prueba-de-estacionariedad}
+
+Para determinar si la serie temporal era estacionaria, se aplicó un test de Dickey-Fuller Aumentado (ADF). Los resultados del test fueron:
+
+\begin{itemize}
+\tightlist
+\item
+  Estadístico Dickey-Fuller: -12.835
+\item
+  Orden de Rezago: 11
+\item
+  p-valor: 0.01
+\end{itemize}
+
+El p-valor fue menor a 0.05, lo cual indica que la serie temporal es estacionaria. Esto es crucial para garantizar la aplicabilidad de muchas técnicas de predicción estadística, ya que las series estacionarias generalmente producen modelos más fiables e interpretables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Test for stationarity using Augmented Dickey{-}Fuller test}
+\NormalTok{adf\_result }\OtherTok{\textless{}{-}} \FunctionTok{adf.test}\NormalTok{(quantity.ts, }\AttributeTok{alternative =} \StringTok{"stationary"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(adf\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  quantity.ts
+## Dickey-Fuller = -12.835, Lag order = 11, p-value = 0.01
+## alternative hypothesis: stationary
+\end{verbatim}
+
+\section{Análisis de ACF y PACF}\label{anuxe1lisis-de-acf-y-pacf}
+
+Las gráficas de la Función de Autocorrelación (ACF) y la Función de Autocorrelación Parcial (PACF) se utilizaron para determinar los parámetros apropiados para los términos AR y MA en el modelo ARIMA.
+
+\begin{itemize}
+\item
+  Gráfica ACF: Mostró autocorrelaciones significativas, lo cual ayudó a identificar el componente de media móvil (MA).
+\item
+  Gráfica PACF: Mostró autocorrelaciones parciales significativas, lo cual ayudó a identificar el componente autorregresivo (AR).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# ACF and PACF plots to determine AR and MA terms}
+\FunctionTok{acf}\NormalTok{(quantity.ts, }\AttributeTok{main=}\StringTok{"ACF of Sales Quantity"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pacf}\NormalTok{(quantity.ts, }\AttributeTok{main=}\StringTok{"PACF of Sales Quantity"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-36-2.pdf}
+
+Estas gráficas proporcionan información sobre las dependencias temporales en los datos, que son fundamentales para seleccionar un modelo ARIMA adecuado.
+
+\section{Ajuste del Modelo ARIMA}\label{ajuste-del-modelo-arima}
+
+Utilizando la función auto.arima, se seleccionó automáticamente el mejor modelo ARIMA. El modelo elegido fue:
+
+\begin{itemize}
+\tightlist
+\item
+  ARIMA(0,0,0) con media distinta de cero
+\item
+  Coeficiente de la Media: 9.6422 (Error Estándar: 0.1255)
+\item
+  Sigma\^{}2 (Estimación de Varianza): 26.2
+\end{itemize}
+
+También se calcularon los valores de verosimilitud, AIC y BIC para evaluar la bondad del ajuste del modelo:
+
+\begin{itemize}
+\tightlist
+\item
+  Verosimilitud Logarítmica: -7699.62
+\item
+  AIC: 15403.23
+\item
+  BIC: 15414.06
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit ARIMA model using auto.arima}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{auto.arima}\NormalTok{(quantity.ts)}
+\FunctionTok{print}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: quantity.ts 
+## ARIMA(0,0,0) with non-zero mean 
+## 
+## Coefficients:
+##          mean
+##       34.0451
+## s.e.   0.6082
+## 
+## sigma^2 = 615.6:  log likelihood = -7699.62
+## AIC=15403.23   AICc=15403.24   BIC=15414.06
+\end{verbatim}
+
+\section{Predicción}\label{predicciuxf3n-1}
+
+Se generó una predicción para los próximos 12 períodos de tiempo utilizando el modelo ARIMA ajustado. Las predicciones puntuales junto con los intervalos de confianza del 80\% y 95\% fueron los siguientes:
+
+Las predicciones sugieren una cantidad de ventas estable, centrada alrededor de 34.0451, con una variabilidad moderada representada por los intervalos de confianza.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Forecast the next 12 time periods}
+\NormalTok{forecast\_result }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(model, }\AttributeTok{h =} \DecValTok{12}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(forecast\_result)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Point Forecast    Lo 80    Hi 80     Lo 95    Hi 95
+## 2018.5562        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5589        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5616        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5644        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5671        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5699        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5726        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5753        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5781        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5808        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5836        34.0451 2.247558 65.84264 -14.58504 82.67524
+## 2018.5863        34.0451 2.247558 65.84264 -14.58504 82.67524
+\end{verbatim}
+
+\section{Detección de Puntos de Cambio}\label{detecciuxf3n-de-puntos-de-cambio-1}
+
+Se realizó un análisis de puntos de cambio utilizando la función cpt.mean del paquete changepoint. El análisis tuvo como objetivo identificar cambios significativos en el nivel medio de la cantidad de ventas a lo largo del tiempo. El resultado mostró un punto de cambio detectado, lo cual sugiere un cambio notable en la cantidad promedio de ventas en un momento particular del tiempo. Este tipo de análisis es útil para entender cambios abruptos, como los causados por factores externos como promociones o cambios en el mercado.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot the forecast}
+\FunctionTok{plot}\NormalTok{(forecast\_result, }\AttributeTok{main=}\StringTok{"Sales Quantity Forecast"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Quantity"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Year"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Detect outliers in the time series}
+\NormalTok{dat.ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(quantity.ts, }\AttributeTok{frequency=}\DecValTok{1}\NormalTok{)}
+\NormalTok{data.ts.outliers }\OtherTok{\textless{}{-}} \FunctionTok{tso}\NormalTok{(dat.ts)}
+\FunctionTok{plot}\NormalTok{(data.ts.outliers)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-39-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Detect change points in the time series}
+\NormalTok{mval }\OtherTok{\textless{}{-}} \FunctionTok{cpt.mean}\NormalTok{(quantity.ts, }\AttributeTok{method =} \StringTok{"AMOC"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(mval, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{cpt.col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Index"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Change Point Detection"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-39-3.pdf}
+
+\section{Conclusión}\label{conclusiuxf3n-1}
+
+El análisis de la serie temporal de los datos de cantidad de ventas reveló las siguientes conclusiones clave:
+
+\begin{itemize}
+\tightlist
+\item
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Estacionariedad: La serie se encontró estacionaria, lo que la hace adecuada para el modelado ARIMA.
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{1}
+  \tightlist
+  \item
+    Modelo ARIMA: Se ajustó un modelo ARIMA(0,0,0) con media distinta de cero a los datos, lo cual sugiere un enfoque simple de predicción basado en el nivel medio.
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{2}
+  \tightlist
+  \item
+    Predicción: La predicción indicó una cantidad de ventas esperada consistente, aunque los intervalos de confianza indicaron cierta variabilidad.
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{3}
+  \tightlist
+  \item
+    Valores Atípicos y Puntos de Cambio: Se detectaron valores atípicos y puntos de cambio, lo cual destaca períodos con desviaciones significativas o cambios en los patrones de ventas.
+    Estos hallazgos proporcionan una base para un análisis adicional, como la identificación de las causas de los valores atípicos o los puntos de cambio detectados y el uso de la predicción para la toma de decisiones en la gestión de inventarios y la cadena de suministro. También se puede considerar una mayor refinación del modelo para mejorar la precisión de las predicciones.
+  \end{enumerate}
+\end{itemize}
 
   \bibliography{book.bib,packages.bib}
 

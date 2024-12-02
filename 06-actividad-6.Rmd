@@ -1,0 +1,149 @@
+# Group 6: Documento Bookdown - Propuesta avance 6
+
+## Introducción
+
+Este informe presenta un análisis de los datos de series temporales de la cantidad de ventas. Los datos fueron agregados por fecha de transacción, y se aplicaron varios tests y modelos estadísticos para entender los patrones subyacentes y predecir tendencias futuras. El análisis se realizó utilizando R, centrándose en la estacionariedad, el ajuste del modelo y la predicción utilizando ARIMA, así como en la detección de valores atípicos y puntos de cambio.
+
+```{r}
+if(!require("forecast")) install.packages("forecast")
+if(!require("tseries")) install.packages("tseries")
+if(!require("timsac")) install.packages("timsac")
+if(!require("ggplot2")) install.packages("ggplot2")
+if(!require("changepoint")) install.packages("changepoint")
+if(!require("tsoutliers")) install.packages("tsoutliers")
+
+library(forecast)
+library(tseries)
+library(timsac)
+library(ggplot2)
+library(changepoint)
+library(tsoutliers)
+```
+
+
+## Preprocesamiento de Datos
+
+Los datos de cantidad de ventas fueron procesados inicialmente agregando las cantidades por fecha de transacción. La serie temporal se creó comenzando desde la primera fecha disponible, utilizando una frecuencia diaria para asegurar una cobertura integral del comportamiento de las ventas a lo largo del tiempo.
+
+```{r}
+datos<-readxl::read_excel("MUESTRA SERIE TIEMPO.xlsx")
+datos$transaction_date <- as.Date(datos$transaction_date, origin = "1900-01-01")
+
+datos <- datos[order(datos$transaction_date), ]
+
+# Aggregate the quantity sold per day (or other metric as needed)
+agg_data <- aggregate(quantity ~ transaction_date, data = datos, sum)
+
+# Convert the data to a time series starting from the earliest date
+start_year <- as.numeric(format(min(agg_data$transaction_date), "%Y"))
+start_day <- as.numeric(format(min(agg_data$transaction_date), "%j"))
+
+# Create a time series object from the aggregated data
+quantity.ts <- ts(agg_data$quantity, start = c(start_year, start_day), frequency = 365)
+
+# Plot the original time series
+plot(quantity.ts, main="Sales Quantity Time Series", ylab="Quantity", xlab="Year")
+```
+
+## Prueba de Estacionariedad
+
+Para determinar si la serie temporal era estacionaria, se aplicó un test de Dickey-Fuller Aumentado (ADF). Los resultados del test fueron:
+
+* Estadístico Dickey-Fuller: -12.835
+* Orden de Rezago: 11
+* p-valor: 0.01
+
+El p-valor fue menor a 0.05, lo cual indica que la serie temporal es estacionaria. Esto es crucial para garantizar la aplicabilidad de muchas técnicas de predicción estadística, ya que las series estacionarias generalmente producen modelos más fiables e interpretables.
+
+
+```{r}
+# Test for stationarity using Augmented Dickey-Fuller test
+adf_result <- adf.test(quantity.ts, alternative = "stationary")
+print(adf_result)
+```
+
+## Análisis de ACF y PACF
+
+Las gráficas de la Función de Autocorrelación (ACF) y la Función de Autocorrelación Parcial (PACF) se utilizaron para determinar los parámetros apropiados para los términos AR y MA en el modelo ARIMA.
+
+* Gráfica ACF: Mostró autocorrelaciones significativas, lo cual ayudó a identificar el componente de media móvil (MA).
+
+* Gráfica PACF: Mostró autocorrelaciones parciales significativas, lo cual ayudó a identificar el componente autorregresivo (AR).
+
+
+```{r}
+# ACF and PACF plots to determine AR and MA terms
+acf(quantity.ts, main="ACF of Sales Quantity")
+pacf(quantity.ts, main="PACF of Sales Quantity")
+```
+
+Estas gráficas proporcionan información sobre las dependencias temporales en los datos, que son fundamentales para seleccionar un modelo ARIMA adecuado.
+
+## Ajuste del Modelo ARIMA
+
+Utilizando la función auto.arima, se seleccionó automáticamente el mejor modelo ARIMA. El modelo elegido fue:
+
+* ARIMA(0,0,0) con media distinta de cero
+* Coeficiente de la Media: 9.6422 (Error Estándar: 0.1255)
+* Sigma^2 (Estimación de Varianza): 26.2
+
+También se calcularon los valores de verosimilitud, AIC y BIC para evaluar la bondad del ajuste del modelo:
+
+* Verosimilitud Logarítmica: -7699.62
+* AIC: 15403.23
+* BIC: 15414.06
+
+```{r}
+# Fit ARIMA model using auto.arima
+model <- auto.arima(quantity.ts)
+print(model)
+```
+
+## Predicción
+
+Se generó una predicción para los próximos 12 períodos de tiempo utilizando el modelo ARIMA ajustado. Las predicciones puntuales junto con los intervalos de confianza del 80% y 95% fueron los siguientes:
+
+
+Las predicciones sugieren una cantidad de ventas estable, centrada alrededor de 34.0451, con una variabilidad moderada representada por los intervalos de confianza.
+
+```{r}
+# Forecast the next 12 time periods
+forecast_result <- forecast(model, h = 12)
+print(forecast_result)
+```
+
+## Detección de Puntos de Cambio
+
+Se realizó un análisis de puntos de cambio utilizando la función cpt.mean del paquete changepoint. El análisis tuvo como objetivo identificar cambios significativos en el nivel medio de la cantidad de ventas a lo largo del tiempo. El resultado mostró un punto de cambio detectado, lo cual sugiere un cambio notable en la cantidad promedio de ventas en un momento particular del tiempo. Este tipo de análisis es útil para entender cambios abruptos, como los causados por factores externos como promociones o cambios en el mercado.
+
+
+```{r}
+
+
+
+# Plot the forecast
+plot(forecast_result, main="Sales Quantity Forecast", ylab="Quantity", xlab="Year")
+
+# Detect outliers in the time series
+dat.ts <- ts(quantity.ts, frequency=1)
+data.ts.outliers <- tso(dat.ts)
+plot(data.ts.outliers)
+
+# Detect change points in the time series
+mval <- cpt.mean(quantity.ts, method = "AMOC")
+plot(mval, type = "l", cpt.col = "blue", xlab = "Index", main = "Change Point Detection")
+```
+
+## Conclusión
+
+El análisis de la serie temporal de los datos de cantidad de ventas reveló las siguientes conclusiones clave:
+
+* 1.	Estacionariedad: La serie se encontró estacionaria, lo que la hace adecuada para el modelado ARIMA.
+
+* 2.	Modelo ARIMA: Se ajustó un modelo ARIMA(0,0,0) con media distinta de cero a los datos, lo cual sugiere un enfoque simple de predicción basado en el nivel medio.
+
+* 3.	Predicción: La predicción indicó una cantidad de ventas esperada consistente, aunque los intervalos de confianza indicaron cierta variabilidad.
+
+* 4.	Valores Atípicos y Puntos de Cambio: Se detectaron valores atípicos y puntos de cambio, lo cual destaca períodos con desviaciones significativas o cambios en los patrones de ventas.
+Estos hallazgos proporcionan una base para un análisis adicional, como la identificación de las causas de los valores atípicos o los puntos de cambio detectados y el uso de la predicción para la toma de decisiones en la gestión de inventarios y la cadena de suministro. También se puede considerar una mayor refinación del modelo para mejorar la precisión de las predicciones.
+

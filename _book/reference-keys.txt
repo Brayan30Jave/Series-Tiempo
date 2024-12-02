@@ -39,3 +39,12 @@ metodología-de-pronóstico
 resultados-del-pronóstico
 análisis-de-residuos
 conclusiones-y-recomendaciones-1
+group-6-documento-bookdown---propuesta-avance-6
+introducción-2
+preprocesamiento-de-datos
+prueba-de-estacionariedad
+análisis-de-acf-y-pacf
+ajuste-del-modelo-arima
+predicción-1
+detección-de-puntos-de-cambio-1
+conclusión-1
