@@ -247,11 +247,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb56-4"><a href="actividad-5.html#cb56-4" tabindex="-1"></a></span>
 <span id="cb56-5"><a href="actividad-5.html#cb56-5" tabindex="-1"></a></span>
 <span id="cb56-6"><a href="actividad-5.html#cb56-6" tabindex="-1"></a><span class="fu">plot</span>(datos_ts)  <span class="co"># Gráfico de la serie de tiempo</span></span></code></pre></div>
-<p><img src="unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="actividad-5.html#cb57-1" tabindex="-1"></a><span class="fu">acf</span>(datos_ts)   <span class="co"># Función de autocorrelación</span></span></code></pre></div>
-<p><img src="unnamed-chunk-28-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="actividad-5.html#cb58-1" tabindex="-1"></a><span class="fu">pacf</span>(datos_ts)  <span class="co"># Función de autocorrelación parcial</span></span></code></pre></div>
-<p><img src="unnamed-chunk-28-3.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-3.png" width="672" /></p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="actividad-5.html#cb59-1" tabindex="-1"></a><span class="fu">adf.test</span>(datos_ts)</span></code></pre></div>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
@@ -286,7 +286,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##                     ME     RMSE      MAE      MPE     MAPE      MASE       ACF1
 ## Training set 0.4678724 14.92075 11.85491 80.97321 148.3785 0.6092831 -0.1055607</code></pre>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="actividad-5.html#cb65-1" tabindex="-1"></a><span class="fu">checkresiduals</span>(modelo_auto)  <span class="co"># O checkresiduals(modelo_sarima)</span></span></code></pre></div>
-<p><img src="unnamed-chunk-28-4.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-4.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
@@ -296,7 +296,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Model df: 1.   Total lags used: 9</code></pre>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="actividad-5.html#cb67-1" tabindex="-1"></a>pronóstico <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo_auto, <span class="at">h =</span> <span class="dv">12</span>)  <span class="co"># Pronóstico para los próximos 12 periodos</span></span>
 <span id="cb67-2"><a href="actividad-5.html#cb67-2" tabindex="-1"></a><span class="fu">plot</span>(pronóstico)</span></code></pre></div>
-<p><img src="unnamed-chunk-28-5.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-28-5.png" width="672" /></p>
 
 </div>
             </section>
