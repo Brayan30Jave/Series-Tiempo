@@ -278,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-14"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb6-14" tabindex="-1"></a>  <span class="fu">autolayer</span>(ventas_ma30, <span class="at">series =</span> <span class="st">&quot;Promedio Móvil 30 días&quot;</span>)<span class="sc">+</span></span>
 <span id="cb6-15"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb6-15" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Ventas Diarias Totales y Promedio Móvil&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-16"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb6-16" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Ventas&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="análisis-de-rezagos" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Análisis de Rezagos:<a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-de-rezagos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -305,7 +305,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-20"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb7-20" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Ventas Diarias Totales y Rezagos&quot;</span>) <span class="sc">+</span></span>
 <span id="cb7-21"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb7-21" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;cost&quot;</span>) <span class="sc">+</span></span>
 <span id="cb7-22"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb7-22" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;cost&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;Lag 1 día&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>, <span class="st">&quot;Lag 7 días&quot;</span> <span class="ot">=</span> <span class="st">&quot;green&quot;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="análisis-de-estacionalidad-descomposición" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Análisis de Estacionalidad (Descomposición):<a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-de-estacionalidad-descomposición" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-3"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb8-3" tabindex="-1"></a>ventas_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(ventas_ts)</span>
 <span id="cb8-4"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb8-4" tabindex="-1"></a></span>
 <span id="cb8-5"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb8-5" tabindex="-1"></a><span class="fu">autoplot</span>(ventas_decomp) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Descomposición de la serie de tiempo de Ventas&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="análisis-de-estacionalidad-promedio-mensual" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Análisis de Estacionalidad (Promedio Mensual):<a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-de-estacionalidad-promedio-mensual" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-8"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb9-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Ventas Totales Mensuales&quot;</span>) <span class="sc">+</span></span>
 <span id="cb9-9"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb9-9" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Ventas&quot;</span>)<span class="sc">+</span></span>
 <span id="cb9-10"><a href="análisis-de-series-de-tiempo-de-ventas.html#cb9-10" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">&quot;1 month&quot;</span>, <span class="at">date_labels =</span> <span class="st">&quot;%b %Y&quot;</span>) <span class="co"># Ajusta etiquetas del eje x</span></span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="conclusión" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Conclusión<a href="análisis-de-series-de-tiempo-de-ventas.html#conclusión" class="anchor-section" aria-label="Anchor link to header"></a></h2>

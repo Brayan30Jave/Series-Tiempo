@@ -269,7 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb67-15"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb67-15" tabindex="-1"></a></span>
 <span id="cb67-16"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb67-16" tabindex="-1"></a><span class="co"># Plot the original time series</span></span>
 <span id="cb67-17"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb67-17" tabindex="-1"></a><span class="fu">plot</span>(quantity.ts, <span class="at">main=</span><span class="st">&quot;Sales Quantity Time Series&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Quantity&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-34-1.png" width="672" /></p>
 </div>
 <div id="prueba-de-estacionariedad" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Prueba de Estacionariedad<a href="group-6-documento-bookdown---propuesta-avance-6.html#prueba-de-estacionariedad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -299,9 +299,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb70-1" tabindex="-1"></a><span class="co"># ACF and PACF plots to determine AR and MA terms</span></span>
 <span id="cb70-2"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb70-2" tabindex="-1"></a><span class="fu">acf</span>(quantity.ts, <span class="at">main=</span><span class="st">&quot;ACF of Sales Quantity&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-36-1.png" width="672" /></p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb71-1" tabindex="-1"></a><span class="fu">pacf</span>(quantity.ts, <span class="at">main=</span><span class="st">&quot;PACF of Sales Quantity&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
+<p><img src="unnamed-chunk-36-2.png" width="672" /></p>
 <p>Estas gráficas proporcionan información sobre las dependencias temporales en los datos, que son fundamentales para seleccionar un modelo ARIMA adecuado.</p>
 </div>
 <div id="ajuste-del-modelo-arima" class="section level2 hasAnchor" number="7.5">
@@ -358,16 +358,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Se realizó un análisis de puntos de cambio utilizando la función cpt.mean del paquete changepoint. El análisis tuvo como objetivo identificar cambios significativos en el nivel medio de la cantidad de ventas a lo largo del tiempo. El resultado mostró un punto de cambio detectado, lo cual sugiere un cambio notable en la cantidad promedio de ventas en un momento particular del tiempo. Este tipo de análisis es útil para entender cambios abruptos, como los causados por factores externos como promociones o cambios en el mercado.</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb76-1" tabindex="-1"></a><span class="co"># Plot the forecast</span></span>
 <span id="cb76-2"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb76-2" tabindex="-1"></a><span class="fu">plot</span>(forecast_result, <span class="at">main=</span><span class="st">&quot;Sales Quantity Forecast&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Quantity&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="unnamed-chunk-39-1.png" width="672" /></p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb77-1" tabindex="-1"></a><span class="co"># Detect outliers in the time series</span></span>
 <span id="cb77-2"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb77-2" tabindex="-1"></a>dat.ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(quantity.ts, <span class="at">frequency=</span><span class="dv">1</span>)</span>
 <span id="cb77-3"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb77-3" tabindex="-1"></a>data.ts.outliers <span class="ot">&lt;-</span> <span class="fu">tso</span>(dat.ts)</span>
 <span id="cb77-4"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb77-4" tabindex="-1"></a><span class="fu">plot</span>(data.ts.outliers)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+<p><img src="unnamed-chunk-39-2.png" width="672" /></p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb78-1" tabindex="-1"></a><span class="co"># Detect change points in the time series</span></span>
 <span id="cb78-2"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb78-2" tabindex="-1"></a>mval <span class="ot">&lt;-</span> <span class="fu">cpt.mean</span>(quantity.ts, <span class="at">method =</span> <span class="st">&quot;AMOC&quot;</span>)</span>
 <span id="cb78-3"><a href="group-6-documento-bookdown---propuesta-avance-6.html#cb78-3" tabindex="-1"></a><span class="fu">plot</span>(mval, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">cpt.col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Index&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Change Point Detection&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-39-3.png" width="672" /></p>
+<p><img src="unnamed-chunk-39-3.png" width="672" /></p>
 </div>
 <div id="conclusión-1" class="section level2 hasAnchor" number="7.8">
 <h2><span class="header-section-number">7.8</span> Conclusión<a href="group-6-documento-bookdown---propuesta-avance-6.html#conclusión-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
