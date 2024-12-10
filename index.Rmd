@@ -1,6 +1,6 @@
 --- 
 title: "Asignatura Series de Tiempo"
-author: "Brayan Hernandez Cardona -  Adriana Avila - WILLIAM ROJAS CARABALI"
+author: "Brayan Hernandez Cardona -  Adriana Janneth Avila - WILLIAM ROJAS CARABALI"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book

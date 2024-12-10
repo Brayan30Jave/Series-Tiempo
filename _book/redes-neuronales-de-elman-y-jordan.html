@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Redes Neuronales de Elman y Jordan | Asignatura Series de Tiempo</title>
+  <meta name="description" content="Este libro permite mostrar los avances realizados en la asignatura de series de tiempo." />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Redes Neuronales de Elman y Jordan | Asignatura Series de Tiempo" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Este libro permite mostrar los avances realizados en la asignatura de series de tiempo." />
+  <meta name="github-repo" content="Brayan30Jave/Series-Tiempo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Redes Neuronales de Elman y Jordan | Asignatura Series de Tiempo" />
+  
+  <meta name="twitter:description" content="Este libro permite mostrar los avances realizados en la asignatura de series de tiempo." />
+  
+
+<meta name="author" content="Brayan Hernandez Cardona - Adriana Janneth Avila - WILLIAM ROJAS CARABALI" />
+
+
+<meta name="date" content="2024-12-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="group-6-documento-bookdown---propuesta-avance-6.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Acerca de este libro</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introducción"><i class="fa fa-check"></i><b>1.1</b> Introducción</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pronóstico-de-ventas-en-empresa-retail.html"><a href="pronóstico-de-ventas-en-empresa-retail.html"><i class="fa fa-check"></i><b>2</b> Pronóstico de Ventas en empresa Retail</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pronóstico-de-ventas-en-empresa-retail.html"><a href="pronóstico-de-ventas-en-empresa-retail.html#optimizando-el-futuro-del-retail"><i class="fa fa-check"></i><b>2.1</b> Optimizando el Futuro del Retail</a></li>
+<li class="chapter" data-level="2.2" data-path="pronóstico-de-ventas-en-empresa-retail.html"><a href="pronóstico-de-ventas-en-empresa-retail.html#estructura-del-dataset"><i class="fa fa-check"></i><b>2.2</b> Estructura del dataset</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="pronóstico-de-ventas-en-empresa-retail.html"><a href="pronóstico-de-ventas-en-empresa-retail.html#por-qué-es-crucial-pronosticar-las-ventas"><i class="fa fa-check"></i><b>2.2.1</b> ¿Por qué es crucial pronosticar las ventas?</a></li>
+<li class="chapter" data-level="2.2.2" data-path="pronóstico-de-ventas-en-empresa-retail.html"><a href="pronóstico-de-ventas-en-empresa-retail.html#qué-podemos-aportar-desde-la-ciencia-de-datos"><i class="fa fa-check"></i><b>2.2.2</b> ¿Qué podemos aportar desde la ciencia de datos?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html"><i class="fa fa-check"></i><b>3</b> Análisis de Series de Tiempo de Ventas</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html#limpieza-y-procesamiento-de-los-datos"><i class="fa fa-check"></i><b>3.1</b> Limpieza y procesamiento de los datos</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-con-promedio-móvil"><i class="fa fa-check"></i><b>3.2</b> Análisis con Promedio Móvil:</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-de-rezagos"><i class="fa fa-check"></i><b>3.3</b> Análisis de Rezagos:</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-de-estacionalidad-descomposición"><i class="fa fa-check"></i><b>3.4</b> Análisis de Estacionalidad (Descomposición):</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html#análisis-de-estacionalidad-promedio-mensual"><i class="fa fa-check"></i><b>3.5</b> Análisis de Estacionalidad (Promedio Mensual):</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-de-series-de-tiempo-de-ventas.html"><a href="análisis-de-series-de-tiempo-de-ventas.html#conclusión"><i class="fa fa-check"></i><b>3.6</b> Conclusión</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html"><i class="fa fa-check"></i><b>4</b> Preprocesamientoy visualización</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#metodología"><i class="fa fa-check"></i><b>4.1</b> Metodología</a></li>
+<li class="chapter" data-level="4.2" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#análisis-detallado-de-los-resultados"><i class="fa fa-check"></i><b>4.2</b> Análisis Detallado de los Resultados:</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#visualización-inicial-y-exploración-de-datos"><i class="fa fa-check"></i><b>4.2.1</b> Visualización Inicial y Exploración de Datos:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#prueba-de-estacionariedad-dickey-fuller-aumentada---adf"><i class="fa fa-check"></i><b>4.3</b> Prueba de Estacionariedad (Dickey-Fuller Aumentada - ADF):</a></li>
+<li class="chapter" data-level="4.4" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#visualización-de-la-serie-diferenciada"><i class="fa fa-check"></i><b>4.4</b> Visualización de la Serie Diferenciada:</a></li>
+<li class="chapter" data-level="4.5" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#funciones-de-autocorrelación-acf-y-autocorrelación-parcial-pacf"><i class="fa fa-check"></i><b>4.5</b> Funciones de Autocorrelación (ACF) y Autocorrelación Parcial (PACF):</a></li>
+<li class="chapter" data-level="4.6" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#descomposición-de-la-serie-componente-estacional"><i class="fa fa-check"></i><b>4.6</b> Descomposición de la Serie (Componente Estacional):</a></li>
+<li class="chapter" data-level="4.7" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#modelo-arima-2-0-1"><i class="fa fa-check"></i><b>4.7</b> Modelo ARIMA (2, 0, 1):</a></li>
+<li class="chapter" data-level="4.8" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#detección-de-puntos-de-cambio"><i class="fa fa-check"></i><b>4.8</b> Detección de Puntos de Cambio:</a></li>
+<li class="chapter" data-level="4.9" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#predicción"><i class="fa fa-check"></i><b>4.9</b> Predicción:</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#predicción-a-6-periodos"><i class="fa fa-check"></i><b>4.9.1</b> Predicción a 6 periodos:</a></li>
+<li class="chapter" data-level="4.9.2" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#predicción-a-3-periodos"><i class="fa fa-check"></i><b>4.9.2</b> Predicción a 3 periodos:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#validación-del-modelo-análisis-de-residuos"><i class="fa fa-check"></i><b>4.10</b> Validación del Modelo (Análisis de Residuos):</a></li>
+<li class="chapter" data-level="4.11" data-path="preprocesamientoy-visualización.html"><a href="preprocesamientoy-visualización.html#conclusiones"><i class="fa fa-check"></i><b>4.11</b> Conclusiones:</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html"><i class="fa fa-check"></i><b>5</b> <strong>Holt-Winters para analisis de tiempo</strong></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#introducción-1"><i class="fa fa-check"></i><b>5.1</b> <strong>Introducción</strong></a></li>
+<li class="chapter" data-level="5.2" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#metodología-1"><i class="fa fa-check"></i><b>5.2</b> <strong>Metodología:</strong></a></li>
+<li class="chapter" data-level="5.3" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#resultados"><i class="fa fa-check"></i><b>5.3</b> <strong>Resultados</strong></a></li>
+<li class="chapter" data-level="5.4" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#conclusiones-y-recomendaciones"><i class="fa fa-check"></i><b>5.4</b> <strong>Conclusiones y Recomendaciones:</strong></a></li>
+<li class="chapter" data-level="5.5" data-path="holt-winters-para-analisis-de-tiempo.html"><a href="holt-winters-para-analisis-de-tiempo.html#reflexión-final"><i class="fa fa-check"></i><b>5.5</b> <strong>Reflexión final</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html"><i class="fa fa-check"></i><b>6</b> <strong>Modelos estacionarios en series de tiempo</strong></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#análisis-de-las-ventas-históricas"><i class="fa fa-check"></i><b>6.1</b> <strong>Análisis de las Ventas Históricas</strong></a></li>
+<li class="chapter" data-level="6.2" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#metodología-de-pronóstico"><i class="fa fa-check"></i><b>6.2</b> <strong>Metodología de Pronóstico</strong></a></li>
+<li class="chapter" data-level="6.3" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#resultados-del-pronóstico"><i class="fa fa-check"></i><b>6.3</b> <strong>Resultados del Pronóstico:</strong></a></li>
+<li class="chapter" data-level="6.4" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#análisis-de-residuos"><i class="fa fa-check"></i><b>6.4</b> <strong>Análisis de Residuos</strong></a></li>
+<li class="chapter" data-level="6.5" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#conclusiones-y-recomendaciones-1"><i class="fa fa-check"></i><b>6.5</b> <strong>Conclusiones y Recomendaciones:</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html"><i class="fa fa-check"></i><b>7</b> Group 6: Documento Bookdown - Propuesta avance 6</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#introducción-2"><i class="fa fa-check"></i><b>7.1</b> Introducción</a></li>
+<li class="chapter" data-level="7.2" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#preprocesamiento-de-datos"><i class="fa fa-check"></i><b>7.2</b> Preprocesamiento de Datos</a></li>
+<li class="chapter" data-level="7.3" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#prueba-de-estacionariedad"><i class="fa fa-check"></i><b>7.3</b> Prueba de Estacionariedad</a></li>
+<li class="chapter" data-level="7.4" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#análisis-de-acf-y-pacf"><i class="fa fa-check"></i><b>7.4</b> Análisis de ACF y PACF</a></li>
+<li class="chapter" data-level="7.5" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#ajuste-del-modelo-arima"><i class="fa fa-check"></i><b>7.5</b> Ajuste del Modelo ARIMA</a></li>
+<li class="chapter" data-level="7.6" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#predicción-1"><i class="fa fa-check"></i><b>7.6</b> Predicción</a></li>
+<li class="chapter" data-level="7.7" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#detección-de-puntos-de-cambio-1"><i class="fa fa-check"></i><b>7.7</b> Detección de Puntos de Cambio</a></li>
+<li class="chapter" data-level="7.8" data-path="group-6-documento-bookdown---propuesta-avance-6.html"><a href="group-6-documento-bookdown---propuesta-avance-6.html#conclusión-1"><i class="fa fa-check"></i><b>7.8</b> Conclusión</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html"><i class="fa fa-check"></i><b>8</b> Redes Neuronales de Elman y Jordan</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#introducción-3"><i class="fa fa-check"></i><b>8.1</b> Introducción</a></li>
+<li class="chapter" data-level="8.2" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#preparación-de-datos"><i class="fa fa-check"></i><b>8.2</b> Preparación de Datos:</a></li>
+<li class="chapter" data-level="8.3" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#modelo-de-elman"><i class="fa fa-check"></i><b>8.3</b> Modelo de Elman:</a></li>
+<li class="chapter" data-level="8.4" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#modelo-de-jordan"><i class="fa fa-check"></i><b>8.4</b> Modelo de Jordan:</a></li>
+<li class="chapter" data-level="8.5" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#resultados-1"><i class="fa fa-check"></i><b>8.5</b> Resultados:</a></li>
+<li class="chapter" data-level="8.6" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#análisis-de-resultados"><i class="fa fa-check"></i><b>8.6</b> Análisis de Resultados:</a></li>
+<li class="chapter" data-level="8.7" data-path="redes-neuronales-de-elman-y-jordan.html"><a href="redes-neuronales-de-elman-y-jordan.html#conclusión-2"><i class="fa fa-check"></i><b>8.7</b> Conclusión:</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Asignatura Series de Tiempo</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="redes-neuronales-de-elman-y-jordan" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Redes Neuronales de Elman y Jordan<a href="redes-neuronales-de-elman-y-jordan.html#redes-neuronales-de-elman-y-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introducción-3" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Introducción<a href="redes-neuronales-de-elman-y-jordan.html#introducción-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Este informe presenta los resultados de la aplicación de redes neuronales recurrentes de Elman y Jordan para la predicción de una serie temporal que representa la cantidad de artículos vendidos diariamente. Los datos fueron procesados y preparados, incluyendo la normalización y división en conjuntos de entrenamiento y prueba. Ambos modelos fueron entrenados y evaluados utilizando métricas como el RMSE, MAE y R².</p>
+</div>
+<div id="preparación-de-datos" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Preparación de Datos:<a href="redes-neuronales-de-elman-y-jordan.html#preparación-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se cargó un conjunto de datos desde un archivo Excel, se realizó la conversión de la variable “cantidad” a una serie temporal y la fecha de transacción se formateó a tipo Date. Para trabajar con una serie temporal regular, se completaron los datos faltantes con el valor cero para los días sin registros. Se dividieron los datos en entrenamiento (80%) y prueba (20%). Finalmente, los datos se normalizaron utilizando una función min-max para mejorar el rendimiento de las redes neuronales.</p>
+</div>
+<div id="modelo-de-elman" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Modelo de Elman:<a href="redes-neuronales-de-elman-y-jordan.html#modelo-de-elman" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se implementó una red neuronal de Elman con una capa oculta de 5 neuronas, una tasa de aprendizaje de 0.1 y se entrenó durante 1000 iteraciones. Después del entrenamiento, se realizaron predicciones sobre el conjunto de prueba y se desnormalizaron los resultados para compararlos con los valores reales.</p>
+</div>
+<div id="modelo-de-jordan" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Modelo de Jordan:<a href="redes-neuronales-de-elman-y-jordan.html#modelo-de-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Similar al modelo de Elman, se implementó una red neuronal de Jordan con la misma configuración de parámetros (5 neuronas en la capa oculta, tasa de aprendizaje de 0.1 y 1000 iteraciones). Las predicciones fueron generadas, desnormalizadas y comparadas con los valores reales.</p>
+</div>
+<div id="resultados-1" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Resultados:<a href="redes-neuronales-de-elman-y-jordan.html#resultados-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se presentan los resultados de las métricas de evaluación para ambos modelos:</p>
+<p>Elman:</p>
+<p>RMSE: 26.19</p>
+<p>MAE: 21.38</p>
+<p>R²: -0.007</p>
+<p>Jordan:</p>
+<p>RMSE: 23.80</p>
+<p>MAE: 19.44</p>
+<p>R²: 0.168</p>
+</div>
+<div id="análisis-de-resultados" class="section level2 hasAnchor" number="8.6">
+<h2><span class="header-section-number">8.6</span> Análisis de Resultados:<a href="redes-neuronales-de-elman-y-jordan.html#análisis-de-resultados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Observando las métricas, se aprecia que el modelo de Jordan presenta un mejor rendimiento en comparación con el modelo de Elman, evidenciado por un RMSE y MAE más bajos. El R² del modelo de Jordan, aunque bajo, es positivo e indica un ajuste ligeramente mejor a los datos que el modelo de Elman, cuyo R² negativo sugiere que el modelo tiene un rendimiento peor que una línea horizontal simple. Los gráficos generados muestran visualmente las predicciones de ambos modelos en comparación con los valores reales. La gráfica de residuos muestra la diferencia entre las predicciones y los valores reales a lo largo del tiempo.</p>
+</div>
+<div id="conclusión-2" class="section level2 hasAnchor" number="8.7">
+<h2><span class="header-section-number">8.7</span> Conclusión:<a href="redes-neuronales-de-elman-y-jordan.html#conclusión-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El modelo de Jordan demostró un rendimiento superior al de Elman para este conjunto de datos específico y la configuración utilizada. Sin embargo, el bajo valor de R² para ambos modelos indica que ninguna de las redes logra capturar completamente la complejidad de la serie temporal. Esto se debe a que es uno de los datasets más complicados y uno de los productos con venta más erratica de la compañía.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-1" tabindex="-1"></a><span class="co"># Cargar el paquete</span></span>
+<span id="cb79-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-2" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb79-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-3" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-4" tabindex="-1"></a><span class="co"># Leer el archivo Excel</span></span>
+<span id="cb79-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-5" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;MUESTRA SERIE TIEMPO.xlsx&quot;</span>)</span>
+<span id="cb79-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-6" tabindex="-1"></a></span>
+<span id="cb79-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-7" tabindex="-1"></a></span>
+<span id="cb79-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-8" tabindex="-1"></a><span class="co"># Verificar los datos cargados</span></span>
+<span id="cb79-9"><a href="redes-neuronales-de-elman-y-jordan.html#cb79-9" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 18
+##   transaction_item_id Transaction_id transaction_date     Time Sucursal_id
+##                 &lt;dbl&gt;          &lt;dbl&gt; &lt;dttm&gt;              &lt;dbl&gt;       &lt;dbl&gt;
+## 1                  51             34 2014-01-01 00:00:00 0.648           0
+## 2                  80             55 2014-01-02 00:00:00 0.434           0
+## 3                 110             78 2014-01-02 00:00:00 0.489           2
+## 4                 142            103 2014-01-03 00:00:00 0.682           0
+## 5                 146            110 2014-01-03 00:00:00 0.655           0
+## 6                 168            124 2014-01-04 00:00:00 0.578           2
+## # ℹ 13 more variables: sucursal_name &lt;chr&gt;, Product_id &lt;dbl&gt;,
+## #   product_name &lt;chr&gt;, category &lt;chr&gt;, brand &lt;chr&gt;, quantity &lt;dbl&gt;,
+## #   cost &lt;dbl&gt;, discount &lt;dbl&gt;, Promotion &lt;chr&gt;, id_cliente &lt;dbl&gt;,
+## #   client_name &lt;chr&gt;, Type &lt;chr&gt;, location &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb81-1" tabindex="-1"></a><span class="fu">str</span>(data)</span></code></pre></div>
+<pre><code>## tibble [2,679 × 18] (S3: tbl_df/tbl/data.frame)
+##  $ transaction_item_id: num [1:2679] 51 80 110 142 146 168 206 237 278 314 ...
+##  $ Transaction_id     : num [1:2679] 34 55 78 103 110 124 151 165 189 213 ...
+##  $ transaction_date   : POSIXct[1:2679], format: &quot;2014-01-01&quot; &quot;2014-01-02&quot; ...
+##  $ Time               : num [1:2679] 0.648 0.434 0.489 0.682 0.655 0.578 0.401 0.465 0.369 0.633 ...
+##  $ Sucursal_id        : num [1:2679] 0 0 2 0 0 2 0 1 0 0 ...
+##  $ sucursal_name      : chr [1:2679] &quot;Guacari&quot; &quot;Guacari&quot; &quot;Tulúa&quot; &quot;Guacari&quot; ...
+##  $ Product_id         : num [1:2679] 14 14 14 14 14 14 14 14 14 14 ...
+##  $ product_name       : chr [1:2679] &quot;Producto 14&quot; &quot;Producto 14&quot; &quot;Producto 14&quot; &quot;Producto 14&quot; ...
+##  $ category           : chr [1:2679] &quot;Accesorios&quot; &quot;Accesorios&quot; &quot;Accesorios&quot; &quot;Accesorios&quot; ...
+##  $ brand              : chr [1:2679] &quot;Panasonic&quot; &quot;Panasonic&quot; &quot;Panasonic&quot; &quot;Panasonic&quot; ...
+##  $ quantity           : num [1:2679] 8 14 13 34 8 24 25 37 23 49 ...
+##  $ cost               : num [1:2679] 39000 39000 39000 39000 39000 39000 39000 39000 39000 39000 ...
+##  $ discount           : num [1:2679] 0.02 0.02 0.03 0.03 0.02 0.06 0.02 0 0.06 0.06 ...
+##  $ Promotion          : chr [1:2679] &quot;N&quot; &quot;N&quot; &quot;N&quot; &quot;N&quot; ...
+##  $ id_cliente         : num [1:2679] 1 54 81 1 8 2 1 40 1 58 ...
+##  $ client_name        : chr [1:2679] &quot;Clientes Varios&quot; &quot;Cliente_53&quot; &quot;Cliente_80&quot; &quot;Clientes Varios&quot; ...
+##  $ Type               : chr [1:2679] &quot;Natural&quot; &quot;Natural&quot; &quot;Natural&quot; &quot;Natural&quot; ...
+##  $ location           : chr [1:2679] &quot;Guacari&quot; &quot;Tulua&quot; &quot;Guacari&quot; &quot;Guacari&quot; ...</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-1" tabindex="-1"></a><span class="co">#convertir la variable &quot;quantity&quot; en una serie de tiempo diaria&quot;</span></span>
+<span id="cb83-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-2" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-3" tabindex="-1"></a>data<span class="sc">$</span>transaction_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(data<span class="sc">$</span>transaction_date, <span class="at">format =</span> <span class="st">&quot;%Y-%m-%d&quot;</span>) <span class="co"># Ajusta el formato si es necesario</span></span>
+<span id="cb83-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-4" tabindex="-1"></a></span>
+<span id="cb83-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-5" tabindex="-1"></a><span class="co">#agrupar los datos por dia </span></span>
+<span id="cb83-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-6" tabindex="-1"></a></span>
+<span id="cb83-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-7" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb83-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-8" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb83-9"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-9" tabindex="-1"></a></span>
+<span id="cb83-10"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-10" tabindex="-1"></a><span class="co"># Crear una serie diaria completa</span></span>
+<span id="cb83-11"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-11" tabindex="-1"></a></span>
+<span id="cb83-12"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-12" tabindex="-1"></a>daily_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb83-13"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-13" tabindex="-1"></a>  <span class="fu">group_by</span>(transaction_date) <span class="sc">%&gt;%</span></span>
+<span id="cb83-14"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-14" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">quantity =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb83-15"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-15" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">transaction_date =</span> <span class="fu">seq</span>(<span class="fu">min</span>(transaction_date), <span class="fu">max</span>(transaction_date), <span class="at">by =</span> <span class="st">&quot;day&quot;</span>),</span>
+<span id="cb83-16"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-16" tabindex="-1"></a>           <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">quantity =</span> <span class="dv">0</span>))</span>
+<span id="cb83-17"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-17" tabindex="-1"></a></span>
+<span id="cb83-18"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-18" tabindex="-1"></a></span>
+<span id="cb83-19"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-19" tabindex="-1"></a><span class="co"># Crear la serie temporal </span></span>
+<span id="cb83-20"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-20" tabindex="-1"></a></span>
+<span id="cb83-21"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-21" tabindex="-1"></a>quantity_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(daily_data<span class="sc">$</span>quantity, <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(<span class="fu">format</span>(<span class="fu">min</span>(daily_data<span class="sc">$</span>transaction_date), <span class="st">&quot;%Y&quot;</span>)),</span>
+<span id="cb83-22"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-22" tabindex="-1"></a>                                                 <span class="fu">as.numeric</span>(<span class="fu">format</span>(<span class="fu">min</span>(daily_data<span class="sc">$</span>transaction_date), <span class="st">&quot;%j&quot;</span>))),</span>
+<span id="cb83-23"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-23" tabindex="-1"></a>                  <span class="at">frequency =</span> <span class="dv">365</span>)</span>
+<span id="cb83-24"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-24" tabindex="-1"></a></span>
+<span id="cb83-25"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-25" tabindex="-1"></a></span>
+<span id="cb83-26"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-26" tabindex="-1"></a><span class="co">#dividir los datos en entrenamiento y prueba </span></span>
+<span id="cb83-27"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-27" tabindex="-1"></a></span>
+<span id="cb83-28"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-28" tabindex="-1"></a>train_size <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">length</span>(quantity_ts))</span>
+<span id="cb83-29"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-29" tabindex="-1"></a>train <span class="ot">&lt;-</span> quantity_ts[<span class="dv">1</span><span class="sc">:</span>train_size]</span>
+<span id="cb83-30"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-30" tabindex="-1"></a>test <span class="ot">&lt;-</span> quantity_ts[(train_size <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(quantity_ts)]</span>
+<span id="cb83-31"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-31" tabindex="-1"></a></span>
+<span id="cb83-32"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-32" tabindex="-1"></a><span class="co">#Normalizar los datos </span></span>
+<span id="cb83-33"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-33" tabindex="-1"></a></span>
+<span id="cb83-34"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-34" tabindex="-1"></a>normalize <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
+<span id="cb83-35"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-35" tabindex="-1"></a>denormalize <span class="ot">&lt;-</span> <span class="cf">function</span>(x, min_val, max_val) x <span class="sc">*</span> (max_val <span class="sc">-</span> min_val) <span class="sc">+</span> min_val</span>
+<span id="cb83-36"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-36" tabindex="-1"></a></span>
+<span id="cb83-37"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-37" tabindex="-1"></a>train_norm <span class="ot">&lt;-</span> <span class="fu">normalize</span>(train)</span>
+<span id="cb83-38"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-38" tabindex="-1"></a>test_norm <span class="ot">&lt;-</span> <span class="fu">normalize</span>(test)</span>
+<span id="cb83-39"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-39" tabindex="-1"></a></span>
+<span id="cb83-40"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-40" tabindex="-1"></a></span>
+<span id="cb83-41"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-41" tabindex="-1"></a><span class="co">#ELMAN MODEL</span></span>
+<span id="cb83-42"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-42" tabindex="-1"></a></span>
+<span id="cb83-43"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-43" tabindex="-1"></a><span class="fu">library</span>(RSNNS)</span>
+<span id="cb83-44"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-44" tabindex="-1"></a></span>
+<span id="cb83-45"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-45" tabindex="-1"></a><span class="co"># Preparar datos para el modelo Elman</span></span>
+<span id="cb83-46"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-46" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">embed</span>(train_norm, <span class="dv">2</span>)[, <span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb83-47"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-47" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> <span class="fu">embed</span>(train_norm, <span class="dv">2</span>)[, <span class="dv">1</span>]</span>
+<span id="cb83-48"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-48" tabindex="-1"></a></span>
+<span id="cb83-49"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-49" tabindex="-1"></a><span class="co"># Entrenar el modelo</span></span>
+<span id="cb83-50"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-50" tabindex="-1"></a>elman_model <span class="ot">&lt;-</span> <span class="fu">elman</span>(</span>
+<span id="cb83-51"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-51" tabindex="-1"></a>  inputs,</span>
+<span id="cb83-52"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-52" tabindex="-1"></a>  outputs,</span>
+<span id="cb83-53"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-53" tabindex="-1"></a>  <span class="at">size =</span> <span class="fu">c</span>(<span class="dv">5</span>),             <span class="co"># Número de neuronas en la capa oculta</span></span>
+<span id="cb83-54"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-54" tabindex="-1"></a>  <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.1</span>),<span class="co"># Tasa de aprendizaje</span></span>
+<span id="cb83-55"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-55" tabindex="-1"></a>  <span class="at">maxit =</span> <span class="dv">1000</span>             <span class="co"># Iteraciones máximas</span></span>
+<span id="cb83-56"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-56" tabindex="-1"></a>)</span>
+<span id="cb83-57"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-57" tabindex="-1"></a></span>
+<span id="cb83-58"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-58" tabindex="-1"></a><span class="co"># Predecir en el conjunto de prueba</span></span>
+<span id="cb83-59"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-59" tabindex="-1"></a>inputs_test <span class="ot">&lt;-</span> <span class="fu">embed</span>(test_norm, <span class="dv">2</span>)[, <span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb83-60"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-60" tabindex="-1"></a>predictions_elman <span class="ot">&lt;-</span> <span class="fu">predict</span>(elman_model, inputs_test)</span>
+<span id="cb83-61"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-61" tabindex="-1"></a></span>
+<span id="cb83-62"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-62" tabindex="-1"></a><span class="co"># Desnormalizar las predicciones</span></span>
+<span id="cb83-63"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-63" tabindex="-1"></a>predictions_elman <span class="ot">&lt;-</span> <span class="fu">denormalize</span>(predictions_elman, <span class="fu">min</span>(train), <span class="fu">max</span>(train))</span>
+<span id="cb83-64"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-64" tabindex="-1"></a></span>
+<span id="cb83-65"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-65" tabindex="-1"></a><span class="co"># Grafica de predicción vrs realidad</span></span>
+<span id="cb83-66"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-66" tabindex="-1"></a><span class="co"># Graficar predicciones frente a los valores reales</span></span>
+<span id="cb83-67"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-67" tabindex="-1"></a><span class="fu">plot</span>(test, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Predicciones vs Realidad&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cantidad&quot;</span>)</span>
+<span id="cb83-68"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-68" tabindex="-1"></a><span class="fu">lines</span>(predictions_elman, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># Predicciones del modelo Elman</span></span>
+<span id="cb83-69"><a href="redes-neuronales-de-elman-y-jordan.html#cb83-69" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Realidad&quot;</span>, <span class="st">&quot;Elman&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="unnamed-chunk-40-1.png" width="672" /></p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-1" tabindex="-1"></a><span class="co"># GRafica de residuos</span></span>
+<span id="cb84-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-2" tabindex="-1"></a><span class="co"># Asegurarte de que &#39;predictions_elman&#39; tenga el mismo tamaño que &#39;test&#39;</span></span>
+<span id="cb84-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-3" tabindex="-1"></a>predictions_elman <span class="ot">&lt;-</span> predictions_elman[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(test)]</span>
+<span id="cb84-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-4" tabindex="-1"></a></span>
+<span id="cb84-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-5" tabindex="-1"></a><span class="co"># Calcular los residuos</span></span>
+<span id="cb84-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-6" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> test <span class="sc">-</span> predictions_elman</span>
+<span id="cb84-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-7" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-8" tabindex="-1"></a><span class="co"># Graficar los residuos</span></span>
+<span id="cb84-9"><a href="redes-neuronales-de-elman-y-jordan.html#cb84-9" tabindex="-1"></a><span class="fu">plot</span>(residuals, <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Residuos del Modelo Elman&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Residuo&quot;</span>)</span></code></pre></div>
+<p><img src="unnamed-chunk-40-2.png" width="672" /></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb85-1" tabindex="-1"></a><span class="co"># Metricas</span></span>
+<span id="cb85-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb85-2" tabindex="-1"></a><span class="co"># Calcular el RMSE</span></span>
+<span id="cb85-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb85-3" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(real, predicted) <span class="fu">sqrt</span>(<span class="fu">mean</span>((real <span class="sc">-</span> predicted)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb85-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb85-4" tabindex="-1"></a>rmse_value <span class="ot">&lt;-</span> <span class="fu">rmse</span>(test, predictions_elman)</span>
+<span id="cb85-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb85-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE:&quot;</span>, rmse_value))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE: NA&quot;</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb87-1" tabindex="-1"></a><span class="co"># Verificar valores NA en &#39;test&#39; y &#39;predictions_elman&#39;</span></span>
+<span id="cb87-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb87-2" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(test))  <span class="co"># Ver cuántos valores faltan en el conjunto de prueba</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb89-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(predictions_elman))  <span class="co"># Ver cuántos valores faltan en las predicciones</span></span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-1" tabindex="-1"></a><span class="co"># Eliminar valores NA de &#39;test&#39; y &#39;predictions_elman&#39;</span></span>
+<span id="cb91-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-2" tabindex="-1"></a>valid_indices <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(test, predictions_elman)</span>
+<span id="cb91-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-3" tabindex="-1"></a>test <span class="ot">&lt;-</span> test[valid_indices]</span>
+<span id="cb91-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-4" tabindex="-1"></a>predictions_elman <span class="ot">&lt;-</span> predictions_elman[valid_indices]</span>
+<span id="cb91-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-5" tabindex="-1"></a></span>
+<span id="cb91-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-6" tabindex="-1"></a><span class="co"># Recalcular el RMSE</span></span>
+<span id="cb91-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-7" tabindex="-1"></a>rmse_value <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test <span class="sc">-</span> predictions_elman)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb91-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb91-8" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE:&quot;</span>, rmse_value))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE: 26.2832000120703&quot;</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb93-1" tabindex="-1"></a><span class="co"># Calcular el MAE</span></span>
+<span id="cb93-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb93-2" tabindex="-1"></a>mae <span class="ot">&lt;-</span> <span class="cf">function</span>(real, predicted) <span class="fu">mean</span>(<span class="fu">abs</span>(real <span class="sc">-</span> predicted))</span>
+<span id="cb93-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb93-3" tabindex="-1"></a>mae_value <span class="ot">&lt;-</span> <span class="fu">mae</span>(test, predictions_elman)</span>
+<span id="cb93-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb93-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;MAE:&quot;</span>, mae_value))</span></code></pre></div>
+<pre><code>## [1] &quot;MAE: 21.3485735049745&quot;</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb95-1" tabindex="-1"></a><span class="co"># Calcular el R²</span></span>
+<span id="cb95-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb95-2" tabindex="-1"></a>r2_value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>((test <span class="sc">-</span> predictions_elman)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>((test <span class="sc">-</span> <span class="fu">mean</span>(test))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb95-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb95-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;R²:&quot;</span>, r2_value))</span></code></pre></div>
+<pre><code>## [1] &quot;R²: -0.0145230230634232&quot;</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-1" tabindex="-1"></a><span class="do">##JORDAN</span></span>
+<span id="cb97-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-2" tabindex="-1"></a></span>
+<span id="cb97-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-3" tabindex="-1"></a><span class="co"># Entrenar el modelo Jordan</span></span>
+<span id="cb97-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-4" tabindex="-1"></a>jordan_model <span class="ot">&lt;-</span> <span class="fu">jordan</span>(</span>
+<span id="cb97-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-5" tabindex="-1"></a>  inputs,</span>
+<span id="cb97-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-6" tabindex="-1"></a>  outputs,</span>
+<span id="cb97-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-7" tabindex="-1"></a>  <span class="at">size =</span> <span class="fu">c</span>(<span class="dv">5</span>),             <span class="co"># Número de neuronas en la capa oculta</span></span>
+<span id="cb97-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-8" tabindex="-1"></a>  <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.1</span>),<span class="co"># Tasa de aprendizaje</span></span>
+<span id="cb97-9"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-9" tabindex="-1"></a>  <span class="at">maxit =</span> <span class="dv">1000</span>             <span class="co"># Iteraciones máximas</span></span>
+<span id="cb97-10"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-10" tabindex="-1"></a>)</span>
+<span id="cb97-11"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-11" tabindex="-1"></a></span>
+<span id="cb97-12"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-12" tabindex="-1"></a><span class="co"># Predecir en el conjunto de prueba</span></span>
+<span id="cb97-13"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-13" tabindex="-1"></a>predictions_jordan <span class="ot">&lt;-</span> <span class="fu">predict</span>(jordan_model, inputs_test)</span>
+<span id="cb97-14"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-14" tabindex="-1"></a></span>
+<span id="cb97-15"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-15" tabindex="-1"></a><span class="co"># Desnormalizar las predicciones</span></span>
+<span id="cb97-16"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-16" tabindex="-1"></a>predictions_jordan <span class="ot">&lt;-</span> <span class="fu">denormalize</span>(predictions_jordan, <span class="fu">min</span>(train), <span class="fu">max</span>(train))</span>
+<span id="cb97-17"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-17" tabindex="-1"></a></span>
+<span id="cb97-18"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-18" tabindex="-1"></a><span class="co"># Calcular RMSE</span></span>
+<span id="cb97-19"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-19" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="cf">function</span>(real, predicted) <span class="fu">sqrt</span>(<span class="fu">mean</span>((real <span class="sc">-</span> predicted)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb97-20"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-20" tabindex="-1"></a></span>
+<span id="cb97-21"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-21" tabindex="-1"></a>rmse_elman <span class="ot">&lt;-</span> <span class="fu">rmse</span>(test, predictions_elman)</span>
+<span id="cb97-22"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-22" tabindex="-1"></a>rmse_jordan <span class="ot">&lt;-</span> <span class="fu">rmse</span>(test, predictions_jordan)</span>
+<span id="cb97-23"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-23" tabindex="-1"></a></span>
+<span id="cb97-24"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-24" tabindex="-1"></a><span class="co"># Graficar resultados</span></span>
+<span id="cb97-25"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-25" tabindex="-1"></a></span>
+<span id="cb97-26"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-26" tabindex="-1"></a></span>
+<span id="cb97-27"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-27" tabindex="-1"></a><span class="fu">plot</span>(test, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Predicciones vs Realidad&quot;</span>)</span>
+<span id="cb97-28"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-28" tabindex="-1"></a><span class="fu">lines</span>(predictions_elman, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># Elman</span></span>
+<span id="cb97-29"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-29" tabindex="-1"></a><span class="fu">lines</span>(predictions_jordan, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># Jordan</span></span>
+<span id="cb97-30"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-30" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Realidad&quot;</span>, <span class="st">&quot;Elman&quot;</span>, <span class="st">&quot;Jordan&quot;</span>),</span>
+<span id="cb97-31"><a href="redes-neuronales-de-elman-y-jordan.html#cb97-31" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="unnamed-chunk-40-3.png" width="672" /></p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-1" tabindex="-1"></a><span class="co">#Comparación de métricas</span></span>
+<span id="cb98-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-2" tabindex="-1"></a><span class="co"># Cálculo de RMSE para Elman</span></span>
+<span id="cb98-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-3" tabindex="-1"></a>rmse_elman <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test <span class="sc">-</span> predictions_elman)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb98-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-4" tabindex="-1"></a></span>
+<span id="cb98-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-5" tabindex="-1"></a><span class="co"># Cálculo de RMSE para Jordan</span></span>
+<span id="cb98-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-6" tabindex="-1"></a>rmse_jordan <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((test <span class="sc">-</span> predictions_jordan)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb98-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-7" tabindex="-1"></a></span>
+<span id="cb98-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-8" tabindex="-1"></a><span class="co"># Imprimir los resultados</span></span>
+<span id="cb98-9"><a href="redes-neuronales-de-elman-y-jordan.html#cb98-9" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE Elman:&quot;</span>, rmse_elman))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE Elman: 26.2832000120703&quot;</code></pre>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb100-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;RMSE Jordan:&quot;</span>, rmse_jordan))</span></code></pre></div>
+<pre><code>## [1] &quot;RMSE Jordan: 23.7957156083977&quot;</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-1" tabindex="-1"></a><span class="co"># Cálculo de MAE para Elman</span></span>
+<span id="cb102-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-2" tabindex="-1"></a>mae_elman <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(test <span class="sc">-</span> predictions_elman))</span>
+<span id="cb102-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-3" tabindex="-1"></a></span>
+<span id="cb102-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-4" tabindex="-1"></a><span class="co"># Cálculo de MAE para Jordan</span></span>
+<span id="cb102-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-5" tabindex="-1"></a>mae_jordan <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(test <span class="sc">-</span> predictions_jordan))</span>
+<span id="cb102-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-6" tabindex="-1"></a></span>
+<span id="cb102-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-7" tabindex="-1"></a><span class="co"># Imprimir los resultados</span></span>
+<span id="cb102-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb102-8" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;MAE Elman:&quot;</span>, mae_elman))</span></code></pre></div>
+<pre><code>## [1] &quot;MAE Elman: 21.3485735049745&quot;</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb104-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;MAE Jordan:&quot;</span>, mae_jordan))</span></code></pre></div>
+<pre><code>## [1] &quot;MAE Jordan: 19.43154303505&quot;</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-1" tabindex="-1"></a><span class="co"># Cálculo de R² para Elman</span></span>
+<span id="cb106-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-2" tabindex="-1"></a>r_squared_elman <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>((test <span class="sc">-</span> predictions_elman)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>((test <span class="sc">-</span> <span class="fu">mean</span>(test))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb106-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-3" tabindex="-1"></a></span>
+<span id="cb106-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-4" tabindex="-1"></a><span class="co"># Cálculo de R² para Jordan</span></span>
+<span id="cb106-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-5" tabindex="-1"></a>r_squared_jordan <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>((test <span class="sc">-</span> predictions_jordan)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>((test <span class="sc">-</span> <span class="fu">mean</span>(test))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb106-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-6" tabindex="-1"></a></span>
+<span id="cb106-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-7" tabindex="-1"></a><span class="co"># Imprimir los resultados</span></span>
+<span id="cb106-8"><a href="redes-neuronales-de-elman-y-jordan.html#cb106-8" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;R² Elman:&quot;</span>, r_squared_elman))</span></code></pre></div>
+<pre><code>## [1] &quot;R² Elman: -0.0145230230634232&quot;</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb108-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;R² Jordan:&quot;</span>, r_squared_jordan))</span></code></pre></div>
+<pre><code>## [1] &quot;R² Jordan: 0.16842204664277&quot;</code></pre>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-1" tabindex="-1"></a><span class="co"># Graficar las predicciones de ambos modelos</span></span>
+<span id="cb110-2"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-2" tabindex="-1"></a><span class="fu">plot</span>(test, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Comparación de Predicciones: Elman vs. Jordan&quot;</span>, </span>
+<span id="cb110-3"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cantidad&quot;</span>)</span>
+<span id="cb110-4"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-4" tabindex="-1"></a><span class="fu">lines</span>(predictions_elman, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb110-5"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-5" tabindex="-1"></a><span class="fu">lines</span>(predictions_jordan, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb110-6"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-6" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Realidad&quot;</span>, <span class="st">&quot;Predicciones Elman&quot;</span>, <span class="st">&quot;Predicciones Jordan&quot;</span>), </span>
+<span id="cb110-7"><a href="redes-neuronales-de-elman-y-jordan.html#cb110-7" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="unnamed-chunk-40-4.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="group-6-documento-bookdown---propuesta-avance-6.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/07-actividad-7.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

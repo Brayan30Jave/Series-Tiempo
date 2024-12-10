@@ -48,3 +48,11 @@ ajuste-del-modelo-arima
 predicción-1
 detección-de-puntos-de-cambio-1
 conclusión-1
+redes-neuronales-de-elman-y-jordan
+introducción-3
+preparación-de-datos
+modelo-de-elman
+modelo-de-jordan
+resultados-1
+análisis-de-resultados
+conclusión-2

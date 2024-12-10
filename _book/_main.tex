@@ -114,13 +114,13 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Asignatura Series de Tiempo},
-  pdfauthor={Brayan Hernandez Cardona - Adriana Avila - WILLIAM ROJAS CARABALI},
+  pdfauthor={Brayan Hernandez Cardona - Adriana Janneth Avila - WILLIAM ROJAS CARABALI},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Asignatura Series de Tiempo}
-\author{Brayan Hernandez Cardona - Adriana Avila - WILLIAM ROJAS CARABALI}
-\date{2024-12-01}
+\author{Brayan Hernandez Cardona - Adriana Janneth Avila - WILLIAM ROJAS CARABALI}
+\date{2024-12-09}
 
 \begin{document}
 \maketitle
@@ -1399,6 +1399,413 @@ El análisis de la serie temporal de los datos de cantidad de ventas reveló las
     Estos hallazgos proporcionan una base para un análisis adicional, como la identificación de las causas de los valores atípicos o los puntos de cambio detectados y el uso de la predicción para la toma de decisiones en la gestión de inventarios y la cadena de suministro. También se puede considerar una mayor refinación del modelo para mejorar la precisión de las predicciones.
   \end{enumerate}
 \end{itemize}
+
+\chapter{Redes Neuronales de Elman y Jordan}\label{redes-neuronales-de-elman-y-jordan}
+
+\section{Introducción}\label{introducciuxf3n-3}
+
+Este informe presenta los resultados de la aplicación de redes neuronales recurrentes de Elman y Jordan para la predicción de una serie temporal que representa la cantidad de artículos vendidos diariamente. Los datos fueron procesados y preparados, incluyendo la normalización y división en conjuntos de entrenamiento y prueba. Ambos modelos fueron entrenados y evaluados utilizando métricas como el RMSE, MAE y R².
+
+\section{Preparación de Datos:}\label{preparaciuxf3n-de-datos}
+
+Se cargó un conjunto de datos desde un archivo Excel, se realizó la conversión de la variable ``cantidad'' a una serie temporal y la fecha de transacción se formateó a tipo Date. Para trabajar con una serie temporal regular, se completaron los datos faltantes con el valor cero para los días sin registros. Se dividieron los datos en entrenamiento (80\%) y prueba (20\%). Finalmente, los datos se normalizaron utilizando una función min-max para mejorar el rendimiento de las redes neuronales.
+
+\section{Modelo de Elman:}\label{modelo-de-elman}
+
+Se implementó una red neuronal de Elman con una capa oculta de 5 neuronas, una tasa de aprendizaje de 0.1 y se entrenó durante 1000 iteraciones. Después del entrenamiento, se realizaron predicciones sobre el conjunto de prueba y se desnormalizaron los resultados para compararlos con los valores reales.
+
+\section{Modelo de Jordan:}\label{modelo-de-jordan}
+
+Similar al modelo de Elman, se implementó una red neuronal de Jordan con la misma configuración de parámetros (5 neuronas en la capa oculta, tasa de aprendizaje de 0.1 y 1000 iteraciones). Las predicciones fueron generadas, desnormalizadas y comparadas con los valores reales.
+
+\section{Resultados:}\label{resultados-1}
+
+Se presentan los resultados de las métricas de evaluación para ambos modelos:
+
+Elman:
+
+RMSE: 26.19
+
+MAE: 21.38
+
+R²: -0.007
+
+Jordan:
+
+RMSE: 23.80
+
+MAE: 19.44
+
+R²: 0.168
+
+\section{Análisis de Resultados:}\label{anuxe1lisis-de-resultados}
+
+Observando las métricas, se aprecia que el modelo de Jordan presenta un mejor rendimiento en comparación con el modelo de Elman, evidenciado por un RMSE y MAE más bajos. El R² del modelo de Jordan, aunque bajo, es positivo e indica un ajuste ligeramente mejor a los datos que el modelo de Elman, cuyo R² negativo sugiere que el modelo tiene un rendimiento peor que una línea horizontal simple. Los gráficos generados muestran visualmente las predicciones de ambos modelos en comparación con los valores reales. La gráfica de residuos muestra la diferencia entre las predicciones y los valores reales a lo largo del tiempo.
+
+\section{Conclusión:}\label{conclusiuxf3n-2}
+
+El modelo de Jordan demostró un rendimiento superior al de Elman para este conjunto de datos específico y la configuración utilizada. Sin embargo, el bajo valor de R² para ambos modelos indica que ninguna de las redes logra capturar completamente la complejidad de la serie temporal. Esto se debe a que es uno de los datasets más complicados y uno de los productos con venta más erratica de la compañía.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar el paquete}
+\FunctionTok{library}\NormalTok{(readxl)}
+
+\CommentTok{\# Leer el archivo Excel}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"MUESTRA SERIE TIEMPO.xlsx"}\NormalTok{)}
+
+
+\CommentTok{\# Verificar los datos cargados}
+\FunctionTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 18
+##   transaction_item_id Transaction_id transaction_date     Time Sucursal_id
+##                 <dbl>          <dbl> <dttm>              <dbl>       <dbl>
+## 1                  51             34 2014-01-01 00:00:00 0.648           0
+## 2                  80             55 2014-01-02 00:00:00 0.434           0
+## 3                 110             78 2014-01-02 00:00:00 0.489           2
+## 4                 142            103 2014-01-03 00:00:00 0.682           0
+## 5                 146            110 2014-01-03 00:00:00 0.655           0
+## 6                 168            124 2014-01-04 00:00:00 0.578           2
+## # i 13 more variables: sucursal_name <chr>, Product_id <dbl>,
+## #   product_name <chr>, category <chr>, brand <chr>, quantity <dbl>,
+## #   cost <dbl>, discount <dbl>, Promotion <chr>, id_cliente <dbl>,
+## #   client_name <chr>, Type <chr>, location <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [2,679 x 18] (S3: tbl_df/tbl/data.frame)
+##  $ transaction_item_id: num [1:2679] 51 80 110 142 146 168 206 237 278 314 ...
+##  $ Transaction_id     : num [1:2679] 34 55 78 103 110 124 151 165 189 213 ...
+##  $ transaction_date   : POSIXct[1:2679], format: "2014-01-01" "2014-01-02" ...
+##  $ Time               : num [1:2679] 0.648 0.434 0.489 0.682 0.655 0.578 0.401 0.465 0.369 0.633 ...
+##  $ Sucursal_id        : num [1:2679] 0 0 2 0 0 2 0 1 0 0 ...
+##  $ sucursal_name      : chr [1:2679] "Guacari" "Guacari" "Tulúa" "Guacari" ...
+##  $ Product_id         : num [1:2679] 14 14 14 14 14 14 14 14 14 14 ...
+##  $ product_name       : chr [1:2679] "Producto 14" "Producto 14" "Producto 14" "Producto 14" ...
+##  $ category           : chr [1:2679] "Accesorios" "Accesorios" "Accesorios" "Accesorios" ...
+##  $ brand              : chr [1:2679] "Panasonic" "Panasonic" "Panasonic" "Panasonic" ...
+##  $ quantity           : num [1:2679] 8 14 13 34 8 24 25 37 23 49 ...
+##  $ cost               : num [1:2679] 39000 39000 39000 39000 39000 39000 39000 39000 39000 39000 ...
+##  $ discount           : num [1:2679] 0.02 0.02 0.03 0.03 0.02 0.06 0.02 0 0.06 0.06 ...
+##  $ Promotion          : chr [1:2679] "N" "N" "N" "N" ...
+##  $ id_cliente         : num [1:2679] 1 54 81 1 8 2 1 40 1 58 ...
+##  $ client_name        : chr [1:2679] "Clientes Varios" "Cliente_53" "Cliente_80" "Clientes Varios" ...
+##  $ Type               : chr [1:2679] "Natural" "Natural" "Natural" "Natural" ...
+##  $ location           : chr [1:2679] "Guacari" "Tulua" "Guacari" "Guacari" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#convertir la variable "quantity" en una serie de tiempo diaria"}
+
+\NormalTok{data}\SpecialCharTok{$}\NormalTok{transaction\_date }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{transaction\_date, }\AttributeTok{format =} \StringTok{"\%Y{-}\%m{-}\%d"}\NormalTok{) }\CommentTok{\# Ajusta el formato si es necesario}
+
+\CommentTok{\#agrupar los datos por dia }
+
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+
+\CommentTok{\# Crear una serie diaria completa}
+
+\NormalTok{daily\_data }\OtherTok{\textless{}{-}}\NormalTok{ data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(transaction\_date) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{quantity =} \FunctionTok{sum}\NormalTok{(quantity, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{complete}\NormalTok{(}\AttributeTok{transaction\_date =} \FunctionTok{seq}\NormalTok{(}\FunctionTok{min}\NormalTok{(transaction\_date), }\FunctionTok{max}\NormalTok{(transaction\_date), }\AttributeTok{by =} \StringTok{"day"}\NormalTok{),}
+           \AttributeTok{fill =} \FunctionTok{list}\NormalTok{(}\AttributeTok{quantity =} \DecValTok{0}\NormalTok{))}
+
+
+\CommentTok{\# Crear la serie temporal }
+
+\NormalTok{quantity\_ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(daily\_data}\SpecialCharTok{$}\NormalTok{quantity, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{format}\NormalTok{(}\FunctionTok{min}\NormalTok{(daily\_data}\SpecialCharTok{$}\NormalTok{transaction\_date), }\StringTok{"\%Y"}\NormalTok{)),}
+                                                 \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{format}\NormalTok{(}\FunctionTok{min}\NormalTok{(daily\_data}\SpecialCharTok{$}\NormalTok{transaction\_date), }\StringTok{"\%j"}\NormalTok{))),}
+                  \AttributeTok{frequency =} \DecValTok{365}\NormalTok{)}
+
+
+\CommentTok{\#dividir los datos en entrenamiento y prueba }
+
+\NormalTok{train\_size }\OtherTok{\textless{}{-}} \FunctionTok{floor}\NormalTok{(}\FloatTok{0.8} \SpecialCharTok{*} \FunctionTok{length}\NormalTok{(quantity\_ts))}
+\NormalTok{train }\OtherTok{\textless{}{-}}\NormalTok{ quantity\_ts[}\DecValTok{1}\SpecialCharTok{:}\NormalTok{train\_size]}
+\NormalTok{test }\OtherTok{\textless{}{-}}\NormalTok{ quantity\_ts[(train\_size }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(quantity\_ts)]}
+
+\CommentTok{\#Normalizar los datos }
+
+\NormalTok{normalize }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) (x }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(x)) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{max}\NormalTok{(x) }\SpecialCharTok{{-}} \FunctionTok{min}\NormalTok{(x))}
+\NormalTok{denormalize }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, min\_val, max\_val) x }\SpecialCharTok{*}\NormalTok{ (max\_val }\SpecialCharTok{{-}}\NormalTok{ min\_val) }\SpecialCharTok{+}\NormalTok{ min\_val}
+
+\NormalTok{train\_norm }\OtherTok{\textless{}{-}} \FunctionTok{normalize}\NormalTok{(train)}
+\NormalTok{test\_norm }\OtherTok{\textless{}{-}} \FunctionTok{normalize}\NormalTok{(test)}
+
+
+\CommentTok{\#ELMAN MODEL}
+
+\FunctionTok{library}\NormalTok{(RSNNS)}
+
+\CommentTok{\# Preparar datos para el modelo Elman}
+\NormalTok{inputs }\OtherTok{\textless{}{-}} \FunctionTok{embed}\NormalTok{(train\_norm, }\DecValTok{2}\NormalTok{)[, }\DecValTok{2}\NormalTok{, drop }\OtherTok{=} \ConstantTok{FALSE}\NormalTok{]}
+\NormalTok{outputs }\OtherTok{\textless{}{-}} \FunctionTok{embed}\NormalTok{(train\_norm, }\DecValTok{2}\NormalTok{)[, }\DecValTok{1}\NormalTok{]}
+
+\CommentTok{\# Entrenar el modelo}
+\NormalTok{elman\_model }\OtherTok{\textless{}{-}} \FunctionTok{elman}\NormalTok{(}
+\NormalTok{  inputs,}
+\NormalTok{  outputs,}
+  \AttributeTok{size =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{),             }\CommentTok{\# Número de neuronas en la capa oculta}
+  \AttributeTok{learnFuncParams =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{),}\CommentTok{\# Tasa de aprendizaje}
+  \AttributeTok{maxit =} \DecValTok{1000}             \CommentTok{\# Iteraciones máximas}
+\NormalTok{)}
+
+\CommentTok{\# Predecir en el conjunto de prueba}
+\NormalTok{inputs\_test }\OtherTok{\textless{}{-}} \FunctionTok{embed}\NormalTok{(test\_norm, }\DecValTok{2}\NormalTok{)[, }\DecValTok{2}\NormalTok{, drop }\OtherTok{=} \ConstantTok{FALSE}\NormalTok{]}
+\NormalTok{predictions\_elman }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(elman\_model, inputs\_test)}
+
+\CommentTok{\# Desnormalizar las predicciones}
+\NormalTok{predictions\_elman }\OtherTok{\textless{}{-}} \FunctionTok{denormalize}\NormalTok{(predictions\_elman, }\FunctionTok{min}\NormalTok{(train), }\FunctionTok{max}\NormalTok{(train))}
+
+\CommentTok{\# Grafica de predicción vrs realidad}
+\CommentTok{\# Graficar predicciones frente a los valores reales}
+\FunctionTok{plot}\NormalTok{(test, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Predicciones vs Realidad"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Tiempo"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Cantidad"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(predictions\_elman, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)  }\CommentTok{\# Predicciones del modelo Elman}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Realidad"}\NormalTok{, }\StringTok{"Elman"}\NormalTok{), }\AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{, }\StringTok{"blue"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# GRafica de residuos}
+\CommentTok{\# Asegurarte de que \textquotesingle{}predictions\_elman\textquotesingle{} tenga el mismo tamaño que \textquotesingle{}test\textquotesingle{}}
+\NormalTok{predictions\_elman }\OtherTok{\textless{}{-}}\NormalTok{ predictions\_elman[}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(test)]}
+
+\CommentTok{\# Calcular los residuos}
+\NormalTok{residuals }\OtherTok{\textless{}{-}}\NormalTok{ test }\SpecialCharTok{{-}}\NormalTok{ predictions\_elman}
+
+\CommentTok{\# Graficar los residuos}
+\FunctionTok{plot}\NormalTok{(residuals, }\AttributeTok{type =} \StringTok{"o"}\NormalTok{, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Residuos del Modelo Elman"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Tiempo"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Residuo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-40-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Metricas}
+\CommentTok{\# Calcular el RMSE}
+\NormalTok{rmse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(real, predicted) }\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((real }\SpecialCharTok{{-}}\NormalTok{ predicted)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{rmse\_value }\OtherTok{\textless{}{-}} \FunctionTok{rmse}\NormalTok{(test, predictions\_elman)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"RMSE:"}\NormalTok{, rmse\_value))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "RMSE: NA"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Verificar valores NA en \textquotesingle{}test\textquotesingle{} y \textquotesingle{}predictions\_elman\textquotesingle{}}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test))  }\CommentTok{\# Ver cuántos valores faltan en el conjunto de prueba}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(predictions\_elman))  }\CommentTok{\# Ver cuántos valores faltan en las predicciones}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Eliminar valores NA de \textquotesingle{}test\textquotesingle{} y \textquotesingle{}predictions\_elman\textquotesingle{}}
+\NormalTok{valid\_indices }\OtherTok{\textless{}{-}} \FunctionTok{complete.cases}\NormalTok{(test, predictions\_elman)}
+\NormalTok{test }\OtherTok{\textless{}{-}}\NormalTok{ test[valid\_indices]}
+\NormalTok{predictions\_elman }\OtherTok{\textless{}{-}}\NormalTok{ predictions\_elman[valid\_indices]}
+
+\CommentTok{\# Recalcular el RMSE}
+\NormalTok{rmse\_value }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((test }\SpecialCharTok{{-}}\NormalTok{ predictions\_elman)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"RMSE:"}\NormalTok{, rmse\_value))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "RMSE: 26.2415983785737"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular el MAE}
+\NormalTok{mae }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(real, predicted) }\FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(real }\SpecialCharTok{{-}}\NormalTok{ predicted))}
+\NormalTok{mae\_value }\OtherTok{\textless{}{-}} \FunctionTok{mae}\NormalTok{(test, predictions\_elman)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"MAE:"}\NormalTok{, mae\_value))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "MAE: 21.3693898320927"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular el R²}
+\NormalTok{r2\_value }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{((test }\SpecialCharTok{{-}}\NormalTok{ predictions\_elman)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{((test }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(test))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"R²:"}\NormalTok{, r2\_value))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "R²: -0.0113139455683893"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#JORDAN}
+
+\CommentTok{\# Entrenar el modelo Jordan}
+\NormalTok{jordan\_model }\OtherTok{\textless{}{-}} \FunctionTok{jordan}\NormalTok{(}
+\NormalTok{  inputs,}
+\NormalTok{  outputs,}
+  \AttributeTok{size =} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{),             }\CommentTok{\# Número de neuronas en la capa oculta}
+  \AttributeTok{learnFuncParams =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{),}\CommentTok{\# Tasa de aprendizaje}
+  \AttributeTok{maxit =} \DecValTok{1000}             \CommentTok{\# Iteraciones máximas}
+\NormalTok{)}
+
+\CommentTok{\# Predecir en el conjunto de prueba}
+\NormalTok{predictions\_jordan }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(jordan\_model, inputs\_test)}
+
+\CommentTok{\# Desnormalizar las predicciones}
+\NormalTok{predictions\_jordan }\OtherTok{\textless{}{-}} \FunctionTok{denormalize}\NormalTok{(predictions\_jordan, }\FunctionTok{min}\NormalTok{(train), }\FunctionTok{max}\NormalTok{(train))}
+
+\CommentTok{\# Calcular RMSE}
+\NormalTok{rmse }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(real, predicted) }\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((real }\SpecialCharTok{{-}}\NormalTok{ predicted)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+
+\NormalTok{rmse\_elman }\OtherTok{\textless{}{-}} \FunctionTok{rmse}\NormalTok{(test, predictions\_elman)}
+\NormalTok{rmse\_jordan }\OtherTok{\textless{}{-}} \FunctionTok{rmse}\NormalTok{(test, predictions\_jordan)}
+
+\CommentTok{\# Graficar resultados}
+
+
+\FunctionTok{plot}\NormalTok{(test, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Predicciones vs Realidad"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(predictions\_elman, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)  }\CommentTok{\# Elman}
+\FunctionTok{lines}\NormalTok{(predictions\_jordan, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)  }\CommentTok{\# Jordan}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Realidad"}\NormalTok{, }\StringTok{"Elman"}\NormalTok{, }\StringTok{"Jordan"}\NormalTok{),}
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-40-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Comparación de métricas}
+\CommentTok{\# Cálculo de RMSE para Elman}
+\NormalTok{rmse\_elman }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((test }\SpecialCharTok{{-}}\NormalTok{ predictions\_elman)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\# Cálculo de RMSE para Jordan}
+\NormalTok{rmse\_jordan }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{((test }\SpecialCharTok{{-}}\NormalTok{ predictions\_jordan)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\# Imprimir los resultados}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"RMSE Elman:"}\NormalTok{, rmse\_elman))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "RMSE Elman: 26.2415983785737"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"RMSE Jordan:"}\NormalTok{, rmse\_jordan))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "RMSE Jordan: 23.9057614026529"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cálculo de MAE para Elman}
+\NormalTok{mae\_elman }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(test }\SpecialCharTok{{-}}\NormalTok{ predictions\_elman))}
+
+\CommentTok{\# Cálculo de MAE para Jordan}
+\NormalTok{mae\_jordan }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(test }\SpecialCharTok{{-}}\NormalTok{ predictions\_jordan))}
+
+\CommentTok{\# Imprimir los resultados}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"MAE Elman:"}\NormalTok{, mae\_elman))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "MAE Elman: 21.3693898320927"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"MAE Jordan:"}\NormalTok{, mae\_jordan))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "MAE Jordan: 19.5052141987093"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cálculo de R² para Elman}
+\NormalTok{r\_squared\_elman }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{((test }\SpecialCharTok{{-}}\NormalTok{ predictions\_elman)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{((test }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(test))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Cálculo de R² para Jordan}
+\NormalTok{r\_squared\_jordan }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{((test }\SpecialCharTok{{-}}\NormalTok{ predictions\_jordan)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{((test }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(test))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Imprimir los resultados}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"R² Elman:"}\NormalTok{, r\_squared\_elman))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "R² Elman: -0.0113139455683893"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"R² Jordan:"}\NormalTok{, r\_squared\_jordan))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "R² Jordan: 0.160712821963783"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Graficar las predicciones de ambos modelos}
+\FunctionTok{plot}\NormalTok{(test, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Comparación de Predicciones: Elman vs. Jordan"}\NormalTok{, }
+     \AttributeTok{xlab =} \StringTok{"Tiempo"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Cantidad"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(predictions\_elman, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(predictions\_jordan, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Realidad"}\NormalTok{, }\StringTok{"Predicciones Elman"}\NormalTok{, }\StringTok{"Predicciones Jordan"}\NormalTok{), }
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{_main_files/figure-latex/unnamed-chunk-40-4.pdf}
 
   \bibliography{book.bib,packages.bib}
 
